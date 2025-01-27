@@ -11,8 +11,12 @@ import './charts/ChartjsConfig';
 
 // Import pages
 import Dashboard from './pages/Dashboard';
+import Typeentite from './pages/typeentite';
+import Typeactivite from './pages/typeactivite';
+import Typebeneficiaire from './pages/Typebeneficiaire';
+import GestionEntite from './pages/GestionEntite';
 
-function App() {
+function  App() {
 
   const location = useLocation();
 
@@ -26,6 +30,10 @@ function App() {
     <>
       <Routes>
         <Route exact path="/" element={<Dashboard />} />
+        <Route path= "/pages/typeentite" element= {<Typeentite/>}></Route>
+        <Route path="/pages/typeactivite" element={<Typeactivite/>}></Route>
+        <Route path = "/pages/typebeneficiaire" element= {<Typebeneficiaire/>}></Route>  
+        <Route path="/pages/GestionEntite" element={<GestionEntite />}></Route> 
       </Routes>
     </>
   );
