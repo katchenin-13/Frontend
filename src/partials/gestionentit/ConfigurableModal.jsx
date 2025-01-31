@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ConfigurableInput from './ConfigurableInput';
 
 const ConfigurableModal = ({
     title = 'Default Title',
@@ -19,27 +20,35 @@ const ConfigurableModal = ({
 
 
     const [formData, setFormData] = useState({
-            organisationType: "",
-            contactPhone: "",
-            contactEmail: "",
-            website: "",
-            localisation: "",
-            responsablePhone: "",
-            responsableEmail: "",
-            fonction: "",
-            adresse: "",
-            responsableLocalisation: "",
-            connexionEmail: "",
-            password: "",
-            confirmPassword: "",
-            description: "",
-        });
-   
-    
+        organisationType: "",
+        contactPhone: "",
+        contactEmail: "",
+        website: "",
+        localisation: "",
+        responsablePhone: "",
+        responsableEmail: "",
+        fonction: "",
+        adresse: "",
+        responsableLocalisation: "",
+        connexionEmail: "",
+        password: "",
+        confirmPassword: "",
+        description: "",
+    });
 
-  
+
+
+
     const [isOpen, setIsOpen] = useState(isOpenInitially);
+    const [dynamicFields, setDynamicFields] = useState([]);
 
+    const addDynamicField = () => {
+        setDynamicFields([...dynamicFields, { id: Date.now(), key: "", value: "" }]);
+    };
+
+    const removeDynamicField = (id) => {
+        setDynamicFields(dynamicFields.filter(field => field.id !== id));
+    };
     useEffect(() => {
         setIsOpen(isOpenInitially); // Synchronise l'état interne avec la prop
     }, [isOpenInitially]);
@@ -52,48 +61,47 @@ const ConfigurableModal = ({
     if (!isOpen) return null; // Si le modal est fermé, ne rien afficher
 
     // Fonction pour ouvrir le modal
-   
+
 
     // Fonction pour fermer le modal
     const closeModal = () => {
         setIsModalOpen(false);
     };
 
-    
+
 
     // Exemple d'actions pour les boutons
- 
 
-        const handleSubmit = (e) => {
-            e.preventDefault();
-            console.log(formData);
-        };
-    
-        const handleChange = (e) => {
-            const { name, value } = e.target;
-            setFormData((prevData) => ({
-                ...prevData,
-                [name]: value,
-            }));
-        };
-    
-    
-    
-        // Handlers for Organisation Fields
-    
-    
-    
-        // Handlers for Contact Fields
-    
-    
-    
-        // Handlers for Responsable Fields
-    
-    
 
- 
-   
- 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(formData);
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+
+    // Handlers for Organisation Fields
+
+
+
+    // Handlers for Contact Fields
+
+
+
+    // Handlers for Responsable Fields
+
+
+
+
+
+
 
     return (
         <>
@@ -120,7 +128,7 @@ const ConfigurableModal = ({
                             <h3 className="text-xl font-medium text-gray-900 dark:text-white">{title}</h3>
                             <button
                                 type="button"
-                                onClick={ handleClose }
+                                onClick={handleClose}
                                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                             >
                                 <svg
@@ -220,74 +228,23 @@ const ConfigurableModal = ({
                                     <div className="border-2 border-gray-500 p-4 rounded-lg">
                                         <h2 className="font-semibold  text-black uppercase">Info Contact</h2>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                                            <input
-                                                type="text"
-                                                name="nom"
-                                                placeholder="nom entite"
-                                                className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                                onChange={handleChange}
-                                            />
+                                            
+                                            <ConfigurableInput label="Nom du Responsable" type="text" name="responsableName" placeholder="responsable nom" value={formData.responsableName} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                            <ConfigurableInput label="Email du Responsable" type="text" name="responsableEmail" placeholder="test@gmail.com" value={formData.responsableEmail} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                            <ConfigurableInput label="Fonction" type="text" name="fonction" placeholder="test@gmail.com" value={formData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                            <ConfigurableInput label="adresse" type="text" name="Adresse" placeholder="test@gmail.com" value={formData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
 
-                                            <input
-                                                type="text"
-                                                name="contactPhone"
-                                                placeholder="+225 01 01 01 10 10"
-                                                className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                                onChange={handleChange}
-                                            />
-                                            <input
-                                                type="email"
-                                                name="contactEmail"
-                                                placeholder="test@gmail.com"
-                                                className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                                onChange={handleChange}
-                                            />
-
-                                            <input
-                                                type="text"
-                                                name="localisation"
-                                                placeholder="localité"
-                                                className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                                onChange={handleChange}
-                                            />
                                         </div>
-
-
-
                                     </div>
 
                                     {/* Info Responsable */}
                                     <div className="border-2 border-gray-500 p-4 rounded-lg">
                                         <h2 className="font-semibold text-black uppercase">Info Responsable</h2>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                                            <input
-                                                type="text"
-                                                name="responsablePhone"
-                                                placeholder="+225 01 01 01 10 10"
-                                                className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                                onChange={handleChange}
-                                            />
-                                            <input
-                                                type="email"
-                                                name="responsableEmail"
-                                                placeholder="test@gmail.com"
-                                                className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                                onChange={handleChange}
-                                            />
-                                            <input
-                                                type="text"
-                                                name="fonction"
-                                                placeholder="Ex: Directeur"
-                                                className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                                onChange={handleChange}
-                                            />
-                                            <input
-                                                type="text"
-                                                name="adresse"
-                                                placeholder="Adresse"
-                                                className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                                onChange={handleChange}
-                                            />
+                                                <ConfigurableInput label="Nom du Responsable" type="text" name="responsableName" placeholder="responsable nom" value={formData.responsableName} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                                <ConfigurableInput label="Email du Responsable" type="text" name="responsableEmail" placeholder="test@gmail.com" value={formData.responsableEmail} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                                <ConfigurableInput label="Fonction" type="text" name="fonction" placeholder="Ex: Directeur" value={formData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                                <ConfigurableInput label="adresse" type="text" name="Adresse" placeholder="BP 123" value={formData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
                                         </div>
 
 
@@ -297,27 +254,9 @@ const ConfigurableModal = ({
                                     <div className="border-2 border-gray-500 p-4 rounded-lg">
                                         <h2 className="font-semibold text-black uppercase">Connexion</h2>
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
-                                            <input
-                                                type="email"
-                                                name="connexionEmail"
-                                                placeholder="Email"
-                                                className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                                onChange={handleChange}
-                                            />
-                                            <input
-                                                type="password"
-                                                name="password"
-                                                placeholder="Mot de passe"
-                                                className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                                onChange={handleChange}
-                                            />
-                                            <input
-                                                type="password"
-                                                name="confirmPassword"
-                                                placeholder="Confirmer mot de passe"
-                                                className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                                onChange={handleChange}
-                                            />
+                                            <ConfigurableInput label="Email" type="email" name="connexionEmail" placeholder="test@gmail.com" value={formData.connexionEmail} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                            <ConfigurableInput label="Mot de Passe" type="password" name="connexionPassword" placeholder="mot de passe" value={formData.password} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                            <ConfigurableInput label="Email" type="email" name="connexionEmail" placeholder="confirmation password" value={formData.confirmPassword} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
                                         </div>
 
 
@@ -343,35 +282,72 @@ const ConfigurableModal = ({
                                                 Autre info
                                             </h2>
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                                                <input
-                                                    type="text"
-                                                    name="responsablePhone"
-                                                    placeholder="+225 01 01 01 10 10"
-                                                    className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                                    onChange={handleChange}
-                                                />
-                                                <input
-                                                    type="email"
-                                                    name="responsableEmail"
-                                                    placeholder="test@gmail.com"
-                                                    className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                                    onChange={handleChange}
-                                                />
-                                                <input
-                                                    type="text"
-                                                    name="fonction"
-                                                    placeholder="Ex: Directeur"
-                                                    className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                                    onChange={handleChange}
-                                                />
-                                                <input
-                                                    type="text"
-                                                    name="adresse"
-                                                    placeholder="Adresse"
-                                                    className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                                    onChange={handleChange}
-                                                />
+                                                <ConfigurableInput label="Téléphone du Responsable" type="text" name="responsablePhone" placeholder="+225 01 01 01 10 10" value={formData.responsablePhone} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                                <ConfigurableInput label="Email du Responsable" type="email" name="responsablePhone" placeholder="test@gmail.com" value={formData.responsableEmail} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                                <ConfigurableInput label="fonction" type="text" name="fonction" placeholder="Ex: Directeur" value={formData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                                
+
                                             </div>
+                                            {dynamicFields.map((field, index) => (
+                                                <div key={field.id} className="flex items-center gap-2 mt-2">
+                                                    <ConfigurableInput 
+                                                    label="fonction"
+                                                     type="text"
+                                                      name="fonction"
+                                                       placeholder="Ex: Directeur"
+                                                        value={field.key}
+                                                        onChange={(e) => {
+                                                            const newFields = [...dynamicFields];
+                                                            newFields[index].key = e.target.value;
+                                                            setDynamicFields(newFields);
+                                                        }}
+                                                        className="w-1/2 h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" 
+                                                         />
+                                                    <ConfigurableInput
+                                                        label="fonction"
+                                                        type="text"
+                                                        name="fonction"
+                                                        placeholder="Ex: Directeur"
+                                                        value={field.value}
+                                                        onChange={(e) => {
+                                                            const newFields = [...dynamicFields];
+                                                            newFields[index].value = e.target.value;
+                                                            setDynamicFields(newFields);
+                                                        }}
+                                                        className="w-1/2 h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
+                                                    />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                                                 
+                                                  
+
+                                                    <button
+                                                        onClick={() => removeDynamicField(field.id)}
+                                                        className="bg-red-500 text-white p-2 rounded"
+                                                    >
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            className="h-5 w-5 mr-2"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke="currentColor"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth="2"
+                                                                d="M6 18L18 6M6 6l12 12"
+                                                            />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            ))}
+                                            <button
+                                                type="button"
+                                                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                                onClick={addDynamicField}
+                                            >
+                                                Ajouter un champ
+                                            </button>
+
                                         </div>
                                     )}
                                     {formData.organisationType === "text" && (
@@ -380,22 +356,69 @@ const ConfigurableModal = ({
                                                 Autre info
                                             </h2>
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                                                <input
-                                                    type="text"
-                                                    name="responsablePhone"
-                                                    placeholder="+225 01 01 01 10 10"
-                                                    className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                                    onChange={handleChange}
-                                                />
-                                                <input
-                                                    type="email"
-                                                    name="responsableEmail"
-                                                    placeholder="test@gmail.com"
-                                                    className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                                                    onChange={handleChange}
-                                                />
-
+                                                
+                                                <ConfigurableInput label="Nom du Responsable" type="text" name="responsableName" placeholder="responsable nom" value={formData.responsableName} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                                <ConfigurableInput label="Email du Responsable" type="text" name="responsableEmail" placeholder="test@gmail.com" value={formData.responsableEmail} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                                <ConfigurableInput label="Fonction" type="text" name="fonction" placeholder="Ex: Directeur" value={formData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                                <ConfigurableInput label="adresse" type="text" name="Adresse" placeholder="BP 123" value={formData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
                                             </div>
+                                            {dynamicFields.map((field, index) => (
+                                                <div key={field.id} className="flex items-center gap-2 mt-2">
+                                                    <ConfigurableInput
+                                                        label="fonction"
+                                                        type="text"
+                                                        name="fonction"
+                                                        placeholder="Ex: Directeur"
+                                                        value={field.key}
+                                                        onChange={(e) => {
+                                                            const newFields = [...dynamicFields];
+                                                            newFields[index].key = e.target.value;
+                                                            setDynamicFields(newFields);
+                                                        }}
+                                                        className="w-1/2 h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
+                                                    />
+                                                    <ConfigurableInput
+                                                        label="fonction"
+                                                        type="text"
+                                                        name="fonction"
+                                                        placeholder="Ex: Directeur"
+                                                        value={field.value}
+                                                        onChange={(e) => {
+                                                            const newFields = [...dynamicFields];
+                                                            newFields[index].value = e.target.value;
+                                                            setDynamicFields(newFields);
+                                                        }}
+                                                        className="w-1/2 h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
+                                                    /> 
+
+                                                    <button
+                                                        onClick={() => removeDynamicField(field.id)}
+                                                        className="bg-red-500 text-white p-2 rounded"
+                                                    >
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            className="h-5 w-5 mr-2"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke="currentColor"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth="2"
+                                                                d="M6 18L18 6M6 6l12 12"
+                                                            />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            ))}
+                                            <button
+                                                type="button"
+                                                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                                onClick={addDynamicField}
+                                            >
+                                                Ajouter un champ
+                                            </button>
                                         </div>
                                     )}
                                     {/* Submit Button */}

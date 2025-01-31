@@ -4,11 +4,11 @@ import Header from '../partials/Header';
 import Banner from '../partials/Banner';
 import FilterButton from '../components/DropdownFilter';
 import Datepicker from '../components/Datepicker';
-import Listeactivite from '../partials/typeactivite';
+import AddActivites from '../partials/typeactivite/AddActivites';
 
 
 
-function Typeactivite() {
+function AjoutActivite() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     
     return (
@@ -54,7 +54,7 @@ function Typeactivite() {
                         {/* Cards */}
                         <div className="grid grid-cols-12 gap-6">
 
-                            <Listeactivite/>
+                            <AddActivites/>
 
                         </div>
 
@@ -68,6 +68,6 @@ function Typeactivite() {
     );
   
 }
-export default Typeactivite;
+export default AjoutActivite;
 
 

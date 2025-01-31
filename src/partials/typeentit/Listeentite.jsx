@@ -15,9 +15,7 @@ function ListeEntite() {
   const [dynamicFields, setDynamicFields] = useState([]);
   const [entiteData, setEntiteData] = useState(data);
 
-  const [libelle, setLibelle] = useState(''); // Champ du formulaire
-  const [isEditing, setIsEditing] = useState(false); // Mode édition activé ou non
-  const [editIndex, setEditIndex] = useState(null); 
+ 
   const [organisationFields, setOrganisationFields] = useState([""]);
 // Index de l'élément à éditer
 
@@ -32,28 +30,8 @@ function ListeEntite() {
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = entiteData.slice(indexOfFirstRow, indexOfLastRow);
 
-
-  //dynamic
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-
-
-  const addField = (section) => {
-    setDynamicFields({
-      ...dynamicFields,
-      [section]: [...dynamicFields[section], ""],
-    });
-  };
-
-  const handleDynamicChange = (e, section, index) => {
-    const updatedFields = [...dynamicFields[section]];
-    updatedFields[index] = e.target.value;
-    setDynamicFields({ ...dynamicFields, [section]: updatedFields });
-  };
-
+  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOptionPro, setSelectedOptionPro] = useState("");
   // Handlers for Organisation Fields
   const addOrganisationField = () => {
     setOrganisationFields([...organisationFields, ""]);
@@ -77,14 +55,6 @@ function ListeEntite() {
     }
   };
 
-  
-  const handleAddField = () => {
-    setDynamicFields([
-      ...dynamicFields,
-      { id: dynamicFields.length, name: '', type: 'text', required: false },
-    ]);
-  };
-
   const handleFieldChange = (id, field, value) => {
     setDynamicFields((prevFields) =>
       prevFields.map((fieldItem) =>
@@ -106,39 +76,21 @@ function ListeEntite() {
     e.target.reset();
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (isEditing) {
-      // Mettre à jour l'élément en cours d'édition
-      const updatedData = [...entiteData];
-      updatedData[editIndex] = {
-        ...updatedData[editIndex],
-        libelle,
-      };
-      setEntiteData(updatedData);
-      setIsEditing(false); // Quitter le mode édition
-    } else {
-      // Ajouter un nouvel élément
-      const newEntite = {
-        libelle,
-        nombreentite: entiteData.length + 1,
-        datecreation: new Date().toLocaleDateString(),
-      };
-      setEntiteData([...entiteData, newEntite]);
-    }
-    setLibelle(''); // Réinitialiser le champ
-    setEditIndex(null); // Réinitialiser l'index
-  };
 
-  const handleEdit = (index) => {
-    const globalIndex = indexOfFirstRow + index; // Récupérer l'index global
-    const entiteToEdit = entiteData[globalIndex];
-    setLibelle(entiteToEdit.libelle); // Charger le libellé dans le formulaire
-    setIsEditing(true); // Activer le mode édition
-    setEditIndex(globalIndex); // Sauvegarder l'index de l'élément
-  };
-  const handleDelete = (index) => {
-    setEntiteData(entiteData.filter((_, i) => i !== index));
+
+   
+
+    // const handleChange = (event) => {
+    //   setSelectedOption(event.target.value);
+  
+    // }
+
+    // const handleChangePro = (event) =>{
+    //   setSelectedOptionPro(event.target.value);
+    // }
+
+  const handleChange = (event, setOption) => {
+    setOption(event.target.value);
   };
 
   return (
@@ -269,8 +221,62 @@ function ListeEntite() {
               </tbody>
             </table>
 
-          
+           
+            <div className="space-y-4">
+              {/* Section Assignable */}
+              <div className="flex items-center space-x-4 border border-gray-300 rounded-lg px-3 py-2 w-full">
+                <span className="text-black">Assignable</span>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="assignable"
+                    value="oui"
+                    checked={selectedOption === "oui"}
+                    onChange={(e) => handleChange(e, setSelectedOption)}
+                    className="focus:ring-green-500 checked:bg-green-500 checked:border-green-500"
+                  />
+                  <span>Oui</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="assignable"
+                    value="non"
+                    checked={selectedOption === "non"}
+                    onChange={(e) => handleChange(e, setSelectedOption)}
+                    className="focus:ring-red-500 checked:bg-red-500 checked:border-red-500"
+                  />
+                  <span>Non</span>
+                </label>
+              </div>
 
+              {/* Section Programmable */}
+              <div className="flex items-center space-x-4 border border-gray-300 rounded-lg px-3 py-2 w-full">
+                <span className="text-black">Programable</span>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="programable"
+                    value="oui"
+                    checked={selectedOptionPro === "oui"}
+                    onChange={(e) => handleChange(e, setSelectedOptionPro)}
+                    className="focus:ring-green-500 checked:bg-green-500 checked:border-green-500"
+                  />
+                  <span>Oui</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="programable"
+                    value="non"
+                    checked={selectedOptionPro === "non"}
+                    onChange={(e) => handleChange(e, setSelectedOptionPro)}
+                    className="focus:ring-red-500 checked:bg-red-500 checked:border-red-500"
+                  />
+                  <span>Non</span>
+                </label>
+              </div>
+            </div>
             <button
               type="submit"
               className="w-full py-2 px-4 bg-sky-600 text-white rounded-md shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"

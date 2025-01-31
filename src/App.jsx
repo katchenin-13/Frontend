@@ -15,6 +15,7 @@ import Typeentite from './pages/typeentite';
 import Typeactivite from './pages/typeactivite';
 import Typebeneficiaire from './pages/Typebeneficiaire';
 import GestionEntite from './pages/GestionEntite';
+import AjoutActivite from './pages/AjoutActivite';
 
 function  App() {
 
@@ -33,7 +34,8 @@ function  App() {
         <Route path= "/pages/typeentite" element= {<Typeentite/>}></Route>
         <Route path="/pages/typeactivite" element={<Typeactivite/>}></Route>
         <Route path = "/pages/typebeneficiaire" element= {<Typebeneficiaire/>}></Route>  
-        <Route path="/pages/GestionEntite" element={<GestionEntite />}></Route> 
+        <Route path="/pages/GestionEntite" element={<GestionEntite />}></Route>
+        <Route path="/pages/AddActivite" element={<AjoutActivite />}></Route>
       </Routes>
     </>
   );

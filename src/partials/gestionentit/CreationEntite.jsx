@@ -158,7 +158,7 @@ const CreationEntite = () => {
                             placeholder="Email responsable"
                             className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                             onChange={handleChange}
-                        />
+                      />
                     </div>
                 </div>
 
