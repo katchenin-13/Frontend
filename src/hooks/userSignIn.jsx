@@ -1,12 +1,10 @@
-// src/hooks/useSignUp.js
+// src/hooks/useSignIn.js
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const useSignUp = () => {
+export const useSignIn = () => {
     // États du formulaire
     const [email, setEmail] = useState("");
-    const [name, setName] = useState("");
-    const [role, setRole] = useState("Slectionner le type de compte");
     const [password, setPassword] = useState("");
     const [newsletter, setNewsletter] = useState(false);
 
@@ -15,21 +13,19 @@ export const useSignUp = () => {
     // Gestion de la soumission du formulaire
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Ajoutez ici la logique pour soumettre les données
-        console.log({ email, name, role, password, newsletter });
+        // Ajoutez ici la logique de connexion (ex: appel API)
+        console.log({ email, password, newsletter });
     };
 
-    // Navigation vers le dashboard
+    // Navigation vers le dashboard après connexion
     const handleStartApp = () => {
         navigate("/dashboard");
     };
 
-    // Regroupement des états et des gestionnaires pour le composant de présentation
-    const state = { email, name, role, password, newsletter };
+    // Retourne l'état et les gestionnaires en un objet
+    const state = { email, password, newsletter };
     const handlers = {
         setEmail,
-        setName,
-        setRole,
         setPassword,
         setNewsletter,
         handleSubmit,

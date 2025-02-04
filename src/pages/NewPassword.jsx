@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import onboardingImage from "../images/onboarding.jpg";
 import { useNavigate } from "react-router-dom";
 
-const SignIn = () => {
+const NewPassword = () => {
     const [newPassword, setnewPassword] = useState("");
-    const [confirpassword, setPassword] = useState("");
+    const [confirpassword, setConfirPassword] = useState("");
     const [newsletter, setNewsletter] = useState(false);
 
     const handleSubmit = (e) => {
@@ -76,7 +76,7 @@ const SignIn = () => {
                                     type="password"
                                     id="confirpassword"
                                     value={confirpassword}
-                                    onChange={(e) => setnewPassword(e.target.value)}
+                                    onChange={(e) => setConfirPassword(e.target.value)}
                                     required
                                     className="w-full mt-2 p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
                                 />
@@ -124,4 +124,4 @@ const SignIn = () => {
     );
 };
 
-export default SignIn;
+export default NewPassword;

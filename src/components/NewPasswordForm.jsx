@@ -1,31 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import onboardingImage from "../images/onboarding.jpg";
-import { useNavigate } from "react-router-dom";
 
-const SignIn = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [newsletter, setNewsletter] = useState(false);
+const NewPasswordForm = ({ state, handlers }) => {
+    const { newPassword, confirPassword, newsletter } = state;
+    const { setNewPassword, setConfirPassword, setNewsletter, handleSubmit, handleStartApp } = handlers;
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Vous pouvez ajouter la logique pour soumettre les données ici.
-        console.log({ email, name, role, password, newsletter });
-    };
-const navigate = useNavigate();
-
-    const handleStartApp = () =>{
-        navigate('/dashboard')
-    }
     return (
         <main className="bg-white dark:bg-gray-900 dark:text-gray-300">
             <div className="flex min-h-screen">
                 {/* Image */}
                 <div className="w-1/2 h-screen relative">
-                    <img src={onboardingImage} alt="Onboarding" className="w-full h-full object-cover" />
+                    <img
+                        src={onboardingImage}
+                        alt="Onboarding"
+                        className="w-full h-full object-cover"
+                    />
                 </div>
 
-                {/* Formulaire de sign-up */}
+                {/* Formulaire de nouveau mot de passe */}
                 <div className="w-1/2 flex-1 flex justify-center items-center py-10 px-5">
                     <div className="w-full max-w-md space-y-8">
                         {/* Logo */}
@@ -45,38 +37,36 @@ const navigate = useNavigate();
 
                         {/* Titre du formulaire */}
                         <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 text-center">
-                             Créez votre compte
+                            Connexion
                         </h1>
 
                         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-                            {/* Email */}
+                            {/* Nouveau mot de passe */}
                             <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                                    Email <span className="text-red-500">*</span>
+                                <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                                    Nouveau mot de passe
                                 </label>
                                 <input
-                                    type="email"
-                                    id="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    type="password"
+                                    id="newPassword"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    required
                                     className="w-full mt-2 p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
                                 />
                             </div>
 
-                            {/* Full Name */}
-                            
-
-                            {/* Password */}
+                            {/* Confirmer le mot de passe */}
                             <div>
-                                <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                                    Mot de passe
+                                <label htmlFor="confirpassword" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                                    Confirmer le mot de passe
                                 </label>
                                 <input
                                     type="password"
-                                    id="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                             
+                                    id="confirpassword"
+                                    value={confirPassword}
+                                    onChange={(e) => setConfirPassword(e.target.value)}
+                                    required
                                     className="w-full mt-2 p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
                                 />
                             </div>
@@ -91,18 +81,22 @@ const navigate = useNavigate();
                                     className="h-4 w-4 text-blue-600 border-gray-300 rounded"
                                 />
                                 <label htmlFor="newsletter" className="ml-2 text-sm text-gray-600 dark:text-gray-400">
-                                    Se souvenir de moi
+                                    Envoyez-moi un e-mail pour me tenir au courant des nouveautés concernant les produits.
                                 </label>
                             </div>
+
                             <div className="flex justify-between items-center mb-4">
-                                <a href="/reset-password" className="text-sm text-violet-500">Mot de passe oublié?</a>
-                                <button 
-                                type="submit"
-                                 className="px-6 py-3 bg-gray-900 text-white rounded-lg"
+                                <a href="/reset-password" className="text-sm text-violet-500">
+                                    Mot de passe oublié ?
+                                </a>
+                                <button
+                                    type="submit"
+                                    className="px-6 py-3 bg-gray-900 text-white rounded-lg"
                                     onClick={handleStartApp}
-                                 >Connexion</button>
+                                >
+                                    Sign In
+                                </button>
                             </div>
-                           
                         </form>
 
                         {/* Footer */}
@@ -110,17 +104,15 @@ const navigate = useNavigate();
                             <p className="text-sm">
                                 Vous avez un compte ?{" "}
                                 <a href="/signup" className="text-blue-500 hover:underline">
-                                    Créer un compte
+                                    Sign In
                                 </a>
                             </p>
                         </div>
                     </div>
                 </div>
-
-                
             </div>
         </main>
     );
 };
 
-export default SignIn;
+export default NewPasswordForm;

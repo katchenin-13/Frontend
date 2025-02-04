@@ -1,34 +1,24 @@
-import React, { useState } from "react";
+// src/components/SignInForm.js
+import React from "react";
 import onboardingImage from "../images/onboarding.jpg";
-import { useNavigate } from "react-router-dom";
 
-const SignUp = () => {
-    const [email, setEmail] = useState("");
-    const [name, setName] = useState("");
-    const [role, setRole] = useState("Designer");
-    const [password, setPassword] = useState("");
-    const [newsletter, setNewsletter] = useState(false);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Vous pouvez ajouter la logique pour soumettre les données ici.
-        console.log({ email, name, role, password, newsletter });
-    };
-
-    const navigate = useNavigate();
-    
-        const handleStartApp = () =>{
-            navigate('/dashboard')
-        }
+const SignInForm = ({ state, handlers }) => {
+    const { email, password, newsletter } = state;
+    const { setEmail, setPassword, setNewsletter, handleSubmit, handleStartApp } = handlers;
 
     return (
         <main className="bg-white dark:bg-gray-900 dark:text-gray-300">
             <div className="flex min-h-screen">
                 {/* Image */}
                 <div className="w-1/2 h-screen relative">
-                    <img src={onboardingImage} alt="Onboarding" className="w-full h-full object-cover" />
+                    <img
+                        src={onboardingImage}
+                        alt="Onboarding"
+                        className="w-full h-full object-cover"
+                    />
                 </div>
-                {/* Formulaire de sign-up */}
+
+                {/* Formulaire de sign-in */}
                 <div className="w-1/2 flex-1 flex justify-center items-center py-10 px-5">
                     <div className="w-full max-w-md space-y-8">
                         {/* Logo */}
@@ -55,48 +45,16 @@ const SignUp = () => {
                             {/* Email */}
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                                    Votre email<span className="text-red-500">*</span>
+                                    Email <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="email"
                                     id="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                   
                                     className="w-full mt-2 p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
+                                    required
                                 />
-                            </div>
-
-                            {/* Full Name */}
-                            <div>
-                                <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                                    Nom complet <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    id="name"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                   
-                                    className="w-full mt-2 p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
-                                />
-                            </div>
-
-                            {/* Role */}
-                            <div>
-                                <label htmlFor="role" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                                  Type de compte <span className="text-red-500">*</span>
-                                </label>
-                                <select
-                                    id="role"
-                                    value={role}
-                                    onChange={(e) => setRole(e.target.value)}
-                                  
-                                    className="w-full mt-2 p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
-                                >
-                                    <option>Particulier</option>
-                                    <option>Organisation</option>
-                                </select>
                             </div>
 
                             {/* Password */}
@@ -109,12 +67,12 @@ const SignUp = () => {
                                     id="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    
                                     className="w-full mt-2 p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
+                                    required
                                 />
                             </div>
 
-                            {/* Checkbox - Newsletter */}
+                            {/* Checkbox - Se souvenir de moi */}
                             <div className="flex items-center">
                                 <input
                                     type="checkbox"
@@ -124,17 +82,21 @@ const SignUp = () => {
                                     className="h-4 w-4 text-blue-600 border-gray-300 rounded"
                                 />
                                 <label htmlFor="newsletter" className="ml-2 text-sm text-gray-600 dark:text-gray-400">
-                                   Se souvenir de moi
+                                    Se souvenir de moi
                                 </label>
                             </div>
 
-                            {/* Submit Button */}
-                            <div className="flex items-center justify-end">
+                            <div className="flex justify-between items-center mb-4">
+                                <a href="/reset-password" className="text-sm text-violet-500">
+                                    Mot de passe oublié ?
+                                </a>
                                 <button
                                     type="submit"
                                     className="px-6 py-3 bg-gray-900 text-white rounded-lg"
                                     onClick={handleStartApp}
-                                >Connexion</button>
+                                >
+                                    Connexion
+                                </button>
                             </div>
                         </form>
 
@@ -142,18 +104,16 @@ const SignUp = () => {
                         <div className="mt-4 text-center">
                             <p className="text-sm">
                                 Vous avez un compte ?{" "}
-                                <a href="/" className="text-blue-500 hover:underline">
-                                    Se connecter
+                                <a href="/signup" className="text-blue-500 hover:underline">
+                                    Créer un compte
                                 </a>
                             </p>
                         </div>
                     </div>
                 </div>
-
-              
             </div>
         </main>
     );
 };
 
-export default SignUp;
+export default SignInForm;
