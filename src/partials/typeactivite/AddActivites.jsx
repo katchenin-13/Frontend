@@ -13,6 +13,7 @@ function AddActivites() {
     const [state, setState] = useState({
         motif: "",
         date: "",
+        daterealisation:"",
         beneficiaire: "---Selectionner un beneficiaire---",
         typeactivitesdes: "---Selectionner un type d'activité---",
         chefDelegation: "",
@@ -59,11 +60,14 @@ function AddActivites() {
 
 
     const inputHandle = (e) => {
-        setState({ ...state, [e.target.name]: e.target.value });
+        setState({ 
+            ...state
+            , [e.target.name]:
+             e.target.value });
     };
-
+   
     const next = () => {
-        if (formNo === 1 && state.motif && state.date && state.beneficiaire !== "---Selectionner un beneficiaire---" && state.typeactivitesdes !== "---Selectionner un type d'activité---") {
+        if (formNo === 1 && state.motif && state.date && state.typeactivitesdes !== "---Selectionner un type d'activité---") {
             setFormNo(formNo + 1);
             setStatus("en_cours_validation");
         } else if (formNo === 2 && state.telephone && state.email) {
@@ -117,18 +121,18 @@ function AddActivites() {
 
                         {formNo === 1 && (
 
-                            <form onSubmit={handleSubmit} className="border-gray-500 text-white p-6 rounded-2xl w-full max-w-4xl space-y-4">
+                            <form onSubmit={handleSubmit} className="border-gray-500 text-white p-6 rounded-2xl w-full space-y-4">
                                 <h1 className="text-2xl font-bold text-center mb-4">Création d’une entité</h1>
 
                                 {/* Info Activités */}
-                                <div className="border-2 border-gray-500 p-4 rounded-lg">
+                                <div className="border-2 border-gray-500 p-4 rounded-lg w-full">
                                     <h2 className="font-semibold text-black uppercase">Info Activités</h2>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                                        <ConfigurableInput label="Motif de la demande d’audience" name="motif" value={state.motif} onChange={handleChange} required />
-                                        <ConfigurableInput label="Date de la reaction" name="date" type="date" value={state.date} onChange={handleChange} required />
+                                        <ConfigurableInput label="Motif de la demande d’audience" name="motif" value={state.motif} onChange={inputHandle}  />
+                                        <ConfigurableInput label="Date de la creaction" name="date" type="date" value={state.date} onChange={inputHandle}  />
                                         {/* <EmployeeAutoComplete label="Bénéficiaire" name="beneficiaire" placeholder="Bénéficiaire" /> */}
-                                        <ConfigurableSelectField label="Types d'activité" name="typeactivitesdes" value={state.typeactivitesdes} onChange={handleChange} options={["Audience", "Discussion", "Conference", "Dons", "Promesse", "Autre"]} />
-                                        <ConfigurableTextArea label="Observation" name="observation" value={state.observation} onChange={handleChange} />
+                                        <ConfigurableSelectField label="Types d'activité" name="typeactivitesdes" value={state.typeactivitesdes} onChange={inputHandle} options={["Audience", "Discussion", "Conference", "Dons", "Promesse", "Autre"]} />
+                                        <ConfigurableTextArea label="Observation" name="observation" value={state.observation} onChange={inputHandle} />
                                     </div>
                                 </div>
 
@@ -138,19 +142,19 @@ function AddActivites() {
                                     <div className="border-2 border-gray-500 p-4 rounded-lg">
                                         <h2 className="font-semibold text-black uppercase">Autre info</h2>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                                            <ConfigurableSelectField label="Type" name="typeDonsPromesse" value={state.typeactivitesdes} onChange={handleChange} options={["En espece", "En nature"]} />
+                                            <ConfigurableSelectField label="Type" name="typeDonsPromesse" value={state.typeactivitesdes} onChange={inputHandle} options={["En espece", "En nature"]} />
                                             {/* Masquer ou désactiver le champ Nature si "En espece" est sélectionné */}
 
                                             {state.typeactivitesdes !== "En espece" && (
-                                                <ConfigurableInput label="Nature" name="nature" type="text" value={state.nature} onChange={handleChange} required
+                                                <ConfigurableInput label="Nature" name="nature" type="text" value={state.nature} onChange={inputHandle} required
                                                     disabled={state.typeactivitesdes === "En espece"} />
 
 
                                             )}
 
-                                            <ConfigurableInput label="Quantité" name="quantite" type="number" value={state.quantite} onChange={handleChange} required />
-                                            <ConfigurableInput label="Valeur" name="valeur" type="number" value={state.valeur} onChange={handleChange} required />
-                                            <ConfigurableInput label="Date de la realisation" name="danterealisation" type="date" value={state.valeur} onChange={handleChange} required />
+                                            <ConfigurableInput label="Quantité" name="quantite" type="number" value={state.quantite} onChange={inputHandle} required />
+                                            <ConfigurableInput label="Valeur" name="valeur" type="number" value={state.valeur} onChange={inputHandle} required />
+                                                <ConfigurableInput label="Date de la realisation" name="danterealisation" type="date" value={state.daterealisation} onChange={inputHandle} required />
 
                                         </div>
 

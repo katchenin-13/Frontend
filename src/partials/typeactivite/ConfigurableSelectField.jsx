@@ -12,7 +12,7 @@ const ConfigurableSelectField = (props) => {
                 name={name}
                 value={value}
                 onChange={onChange}
-                className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
+                className={ `w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none`}
             >
                 {/* Option par défaut */}
                 <option value="" disabled>Select an option</option>
