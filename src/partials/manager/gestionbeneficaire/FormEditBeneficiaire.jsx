@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import ConfigurableInput from '../../../components/ConfigurableInput';
 import useBeneficiaireActions from '../../../hooks/useBeneficiaireActions';
 import { useBeneficiaire } from '../../../contexts/BeneficiaireContext';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const FormEditBeneficiaire = ({initialData = {}}) => {
     const { EditBeneficiaire, beneficiaires, typeBeneficiaire } = useBeneficiaire(useBeneficiaireActions)
@@ -36,7 +39,6 @@ console.log("BeneficiaireData:", typeBeneficiaire);
        
         if (savedBeneficiaire && savedBeneficiaire !== "undefined") {
             try {
-                               
                 setBeneficiaireData(JSON.parse(savedBeneficiaire)); // Charge les données stockées
             } catch (error) {
                 console.error("Erreur de parsing JSON :", error);
@@ -87,6 +89,7 @@ console.log("BeneficiaireData:", typeBeneficiaire);
             beneficiaires.forEach((beneficiaire) => {
                 if (beneficiaire.id === BeneficiaireData.id) {
                     // Mettre à jour le beneficiaire dans la liste
+                    beneficiaire.beneficiaireType = BeneficiaireData.beneficiaireType;
                     beneficiaire.name = BeneficiaireData.name;
                     beneficiaire.email = BeneficiaireData.email;
                     beneficiaire.phone = BeneficiaireData.phone;
@@ -96,25 +99,25 @@ console.log("BeneficiaireData:", typeBeneficiaire);
                 }
             });
 
-            localStorage.setItem("beneficiaire", JSON.stringify(beneficiaires));// ✅ Stocke correctement l'objet sélectionné
+            localStorage.setItem("beneficiaire", JSON.stringify(BeneficiaireData));// ✅ Stocke correctement l'objet sélectionné
 
             // data initialData sera egale au data du localStorage
-            localStorage.setItem("beneficiaire", JSON.stringify(beneeficiaires));// ✅ Stocke correctement l'objet sélectionné
+            localStorage.setItem("beneficiaire", JSON.stringify(beneficiaires));// ✅ Stocke correctement l'objet sélectionné
             console.log("Beneficiaire modifié :", BeneficiaireData);
             toast.success("Beneficiaire modifié avec succès !");
         } else {
-            toast.error("Erreur : Impossible de modifier un contact sans ID.");
+            toast.error("Erreur : Impossible de modifier un beneficiaire sans ID.");
             return;
         }
 
         // Réinitialisation du formulaire après soumission
-        setContactData({ name: '',email: '',phone: '',ville: '',adress: '',description: '',});
+        setBeneficiaireData({ name: '',email: '',phone: '',ville: '',adress: '',description: '',responsableEmail:"",responsableFonction:"",responsableName:"",responsablePhone:""});
     };
     return (
 
         <div className="col-span-full xl:col-span-12 bg-white dark:bg-gray-800 rounded-x">
 
-
+  <ToastContainer />
             <header className="px-5 py-4 border-b border-gray-200 dark:border-gray-700/60">
                 <h2 className="font-semibold text-gray-800 dark:text-gray-100">Création d’un beneficiaire</h2>
             </header>
@@ -180,7 +183,7 @@ console.log("BeneficiaireData:", typeBeneficiaire);
 
                         {/* Autre Info */}
                         {/* Afficher Autre Info si Organisation est sélectionné */}
-                        {BeneficiaireData.beneficiaireType === "select" && (
+                        {BeneficiaireData.beneficiaireType === "communaute" && (
                             <div className="border-2 border-gray-500 p-4 rounded-lg">
                                 <h2 className="font-semibold text-black uppercase">
                                     Autre info
@@ -188,8 +191,8 @@ console.log("BeneficiaireData:", typeBeneficiaire);
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                                     <ConfigurableInput label="Nom complet" type="text" name="responsableName" placeholder="Nom complet" value={BeneficiaireData.responsableName} onChange={handleChange} />
                                     <ConfigurableInput label="Téléphone du Responsable" type="text" name="responsablePhone" placeholder="+225 01 01 01 10 10" value={BeneficiaireData.responsablePhone} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
-                                    <ConfigurableInput label="Email du Responsable" type="email" name="responsablePhone" placeholder="test@gmail.com" value={BeneficiaireData.responsableEmail} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
-                                    <ConfigurableInput label="fonction" type="text" name="responsqblefonction" placeholder="Ex: Directeur" value={BeneficiaireData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                    <ConfigurableInput label="Email du Responsable" type="email" name="responsableEmail" placeholder="test@gmail.com" value={BeneficiaireData.responsableEmail} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                    <ConfigurableInput label="fonction" type="text" name="responsableFonction" placeholder="Ex: Directeur" value={BeneficiaireData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
                                 </div>
                                 {dynamicFields.map((field, index) => (
                                     <div key={field.id} className="flex items-center gap-2 mt-2">
@@ -249,17 +252,16 @@ console.log("BeneficiaireData:", typeBeneficiaire);
 
                             </div>
                         )}
-                        {BeneficiaireData.beneficiaireType === "text" && (
+                        {BeneficiaireData.beneficiaireType === "ong" && (
                             <div className="border-2 border-gray-500 p-4 rounded-lg">
                                 <h2 className="font-semibold text-black uppercase">
                                     Autre info
                                 </h2>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-
-                                    <ConfigurableInput label="Nom du Responsable" type="text" name="responsableName" placeholder="responsable nom" value={BeneficiaireData.responsableName} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
-                                    <ConfigurableInput label="Email du Responsable" type="text" name="responsableEmail" placeholder="test@gmail.com" value={BeneficiaireData.responsableEmail} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
-                                    <ConfigurableInput label="Fonction" type="text" name="responsableFonction" placeholder="Ex: Directeur" value={BeneficiaireData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
-                                    <ConfigurableInput label="Adresse" type="text" name="adress" placeholder="BP 123" value={BeneficiaireData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                    <ConfigurableInput label="Nom complet" type="text" name="responsableName" placeholder="Nom complet" value={BeneficiaireData.responsableName} onChange={handleChange} />
+                                    <ConfigurableInput label="Téléphone du Responsable" type="text" name="responsablePhone" placeholder="+225 01 01 01 10 10" value={BeneficiaireData.responsablePhone} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                    <ConfigurableInput label="Email du Responsable" type="email" name="responsableEmail" placeholder="test@gmail.com" value={BeneficiaireData.responsableEmail} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                    <ConfigurableInput label="fonction" type="text" name="responsableFonction" placeholder="Ex: Directeur" value={BeneficiaireData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
                                 </div>
                                 {dynamicFields.map((field, index) => (
                                     <div key={field.id} className="flex items-center gap-2 mt-2">

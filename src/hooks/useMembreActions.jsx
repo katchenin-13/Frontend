@@ -6,7 +6,7 @@ const initialData = [
      {
             id:1,
             name: "Communaute Internationale des Femmes",
-            email: "contact@cif.org",
+            email: "membre@cif.org",
             phone: "+225 07 12 34 56 78",
             adress: "Top-ranked search platform",
             ville:"Korhogo",
@@ -33,7 +33,7 @@ const initialData = [
         {
             id:4,
             name: "Communauté Juive",
-            email: "contact@communaute-juive.net",
+            email: "membre@communaute-juive.net",
             phone: "+225 07 99 88 77 66",
             adress: "Brings all your news into one place",
             ville: "Korhogo",
@@ -51,7 +51,7 @@ const initialData = [
         {
             id:6,
             name: "Association Internationale des Femmes",
-            email: "contact@aif.org",
+            email: "membre@aif.org",
             phone: "+225 01 44 33 22 11",
             adress: "Web-based sales doc management",
             
@@ -78,51 +78,51 @@ const initialData = [
         }
 ];
 
-export function useContactActions() {
-    const [contacts, setContacts] = useState([]);
+export function useMembreActions() {
+    const [membres, setMembre] = useState([]);
    
-    // Chargement initial des contacts
+    // Chargement initial des membres
     useEffect(() => {
-        const storedContacts = JSON.parse(localStorage.getItem("contacts"));
-        const mergedContacts = storedContacts.length > 0 ? storedContacts : initialData;
-        setContacts(mergedContacts);
-        // Sauvegarde des contacts fusionnés dans le localStorage
-        if (storedContacts.length === 0) {
-            localStorage.setItem("contacts", JSON.stringify(mergedContacts));
+        const storedMembres = JSON.parse(localStorage.getItem("membres"));
+        const mergedMembres = ( storedMembres && storedMembres.length > 0) ? storedMembres : initialData;
+        setMembre(mergedMembres);
+        // Sauvegarde des membres fusionnés dans le localStorage
+        if (storedMembres?.length === 0) {
+            localStorage.setItem("membres", JSON.stringify(mergedMembres));
         }
     }, []);
 
-    // Sauvegarde automatique des contacts dans le localStorage
+    // Sauvegarde automatique des membres dans le localStorage
     useEffect(() => {
-        if (contacts.length > 0) {
-            localStorage.setItem("contacts", JSON.stringify(contacts));
+        if (membres.length > 0) {
+            localStorage.setItem("membres", JSON.stringify(membres));
         }
-    }, [contacts]);
+    }, [membres]);
 
     
-    // Fonction pour ajouter un contact
-    const addContact = (contact) => {
-        const updatedContacts = [{ id: Date.now(), ...contact }, ...contacts];
-        setContacts(updatedContacts);
-        localStorage.setItem("contacts", JSON.stringify(updatedContacts));
+    // Fonction pour ajouter un membre
+    const addMembre = (membre) => {
+        const updatedMembres = [{ id: Date.now(), ...membre }, ...membres];
+        setMembre(updatedMembres);
+        localStorage.setItem("membres", JSON.stringify(updatedMembres));
     };
 
-    // Fonction pour modifier un contact
-    const editContact = (id, updatedContact) => {
-        setContacts((prev) => {
-            const updatedContacts = prev.map((contact) =>
-                contact.id === id ? { ...contact, ...updatedContact } : contact
+    // Fonction pour modifier un membre
+    const editMembre = (id, updatedMembre) => {
+        setMembre((prev) => {
+            const updatedMembres = prev.map((membre) =>
+                membre.id === id ? { ...membre, ...updatedMembre } : membre
             );
 
             // Mise à jour du localStorage
-            localStorage.setItem("contacts", JSON.stringify(updatedContacts));
+            localStorage.setItem("membres", JSON.stringify(updatedMembres));
 
-            return updatedContacts;
+            return updatedMembre;
         });
     };
 
-    // Fonction pour supprimer un contact
-    const deleteContact = (id) => {
+    // Fonction pour supprimer un membre
+    const deleteMembre = (id) => {
         Swal.fire({
             title: "Êtes-vous sûr ?",
             text: "Cette action est irréversible !",
@@ -134,22 +134,22 @@ export function useContactActions() {
             cancelButtonText: "Annuler"
         }).then((result) => {
             if (result.isConfirmed) {
-                setContacts((prev) => prev.filter((contact) => contact.id !== id));
-                localStorage.setItem("contacts", JSON.stringify(contacts.filter((contact) => contact.id !== id)));
-                Swal.fire("Supprimé !", "Le contact a été supprimé.", "success");
+                setMembre((prev) => prev.filter((membre) => membre.id !== id));
+                localStorage.setItem("membres", JSON.stringify(membres.filter((membre) => membre.id !== id)));
+                Swal.fire("Supprimé !", "Le membre a été supprimé.", "success");
             }
         });
     };
 
 
-    // const showContact = (contact) => {
+    // const showContact = (membre) => {
     //     Swal.fire({
-    //         title: contact.name,
+    //         title: membre.name,
     //         html: `
-    //         <p><strong>Email:</strong> ${contact.email}</p>
-    //         <p><strong>Téléphone:</strong> ${contact.phone}</p>
-    //         <p><strong>Adresse:</strong> ${contact.adress || "Non renseigné"}</p>
-    //         <p><strong>Ville:</strong> ${contact.ville || "Non renseigné"}</p>
+    //         <p><strong>Email:</strong> ${membre.email}</p>
+    //         <p><strong>Téléphone:</strong> ${membre.phone}</p>
+    //         <p><strong>Adresse:</strong> ${membre.adress || "Non renseigné"}</p>
+    //         <p><strong>Ville:</strong> ${membre.ville || "Non renseigné"}</p>
     //     `,
     //         icon: "info",
     //         confirmButtonText: "Fermer"
@@ -159,30 +159,30 @@ export function useContactActions() {
 
 
 
-    const showContact = (contact) => {
+    const showMembre = (membre) => {
         Swal.fire({
-            title: `<strong>Détails du Contact</strong>`,
+            title: `<strong>Détails du membre</strong>`,
             html: `
             <table style="width:100%; border-collapse: collapse; text-align: left;">
                 <tr>
                     <th style="border: 1px solid #ddd; padding: 8px; background: #f4f4f4;">Nom</th>
-                    <td style="border: 1px solid #ddd; padding: 8px;">${contact.name || "Non renseigné"}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${membre.name || "Non renseigné"}</td>
                 </tr>
                 <tr>
                     <th style="border: 1px solid #ddd; padding: 8px; background: #f4f4f4;">Email</th>
-                    <td style="border: 1px solid #ddd; padding: 8px;">${contact.email || "Non renseigné"}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${membre.email || "Non renseigné"}</td>
                 </tr>
                 <tr>
                     <th style="border: 1px solid #ddd; padding: 8px; background: #f4f4f4;">Téléphone</th>
-                    <td style="border: 1px solid #ddd; padding: 8px;">${contact.phone || "Non renseigné"}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${membre.phone || "Non renseigné"}</td>
                 </tr>
                 <tr>
                     <th style="border: 1px solid #ddd; padding: 8px; background: #f4f4f4;">Adresse</th>
-                    <td style="border: 1px solid #ddd; padding: 8px;">${contact.adress || "Non renseigné"}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${membre.adress || "Non renseigné"}</td>
                 </tr>
                 <tr>
                     <th style="border: 1px solid #ddd; padding: 8px; background: #f4f4f4;">Ville</th>
-                    <td style="border: 1px solid #ddd; padding: 8px;">${contact.ville || "Non renseigné"}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${membre.ville || "Non renseigné"}</td>
                 </tr>
             </table>
         `,
@@ -193,13 +193,13 @@ export function useContactActions() {
     };
 
     return {
-        contacts,
-        addContact,
-        editContact,
-        showContact,
-        deleteContact,
+        membres,
+        addMembre,
+        editMembre,
+        showMembre,
+        deleteMembre,
        
     };
 }
 
-export default useContactActions;
+export default useMembreActions;

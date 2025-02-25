@@ -6,7 +6,7 @@ const initialData = [
     {
        
         id: 1 ,
-        beneficiaireType: "Association",
+        beneficiaireType: "ong",
         name: "Communaute Internationale des Femmes",
         email: "contact@cif.org",
         phone: "+225 07 12 34 56 78",
@@ -20,7 +20,7 @@ const initialData = [
     },
     {
         id: 2 ,
-        beneficiaireType: "Communauté Religieuse",
+        beneficiaireType: "communaute",
         name: "Communauté Musulmane – SOBA",
         email: "info@musulmane-soba.ci",
         phone: "+225 05 98 76 54 32",
@@ -34,21 +34,21 @@ const initialData = [
     },
     {
         id: 3 ,
-        eneficiaireType: "Communauté Religieuse",
-        ame: "Communauté Chrétienne",
-        mail: "support@communaute-chretienne.com",
-        hone: "+225 01 22 33 44 55",
-        ille: "Yamoussoukro",
-        dress: "Innovative tech products",
-        esponsableName: "Paul N'Guessan",
-        esponsablePhone: "+225 01 55 66 77 88",
-        esponsableEmail: "paul.nguessan@communaute-chretienne.com",
-        esponsableFonction: "Pasteur Principal",
-        escription: "Communauté engagée dans la prière et l’action sociale."
+        eneficiaireType: "ong",
+        name: "Communauté Chrétienne",
+        email: "support@communaute-chretienne.com",
+        phone: "+225 01 22 33 44 55",
+        ville: "Yamoussoukro",
+        adress: "Innovative tech products",
+        responsableName: "Paul N'Guessan",
+        responsablePhone: "+225 01 55 66 77 88",
+        responsableEmail: "paul.nguessan@communaute-chretienne.com",
+        responsableFonction: "Pasteur Principal",
+        rescription: "Communauté engagée dans la prière et l’action sociale."
     },
     {
         id: 4 ,
-        beneficiaireType: "Communauté Religieuse",
+        beneficiaireType: "ong",
         name: "Communauté Juive",
         email: "contact@communaute-juive.net",
         phone: "+225 07 99 88 77 66",
@@ -62,7 +62,7 @@ const initialData = [
     },
     {
         id: 5 ,
-        beneficiaireType: "Association",
+        beneficiaireType: "ong",
         name: "Quotient Internationale des Femmes",
         email: "info@quotient.co",
         phone: "+225 05 66 55 44 33",
@@ -76,7 +76,7 @@ const initialData = [
     },
     {
         id: 6 ,
-        beneficiaireType: "Association",
+        beneficiaireType: "ong",
         name: "Association Internationale des Femmes",
         email: "contact@aif.org",
         phone: "+225 01 44 33 22 11",
@@ -90,9 +90,9 @@ const initialData = [
     },
     {
         id: 7 ,
-        beneficiaireType: "Individu",
+        beneficiaireType: "communaute",
         name: "Nancy Davolio",
-       email: "nancy.davolio@example.com",
+        email: "nancy.davolio@example.com",
         phone: "+225 07 22 11 00 99",
         ville: "Abidjan",
         adress: "Web-based sales doc management",
@@ -104,7 +104,7 @@ const initialData = [
     },
     {
         id: 8 ,
-        beneficiaireType: "Individu",
+        beneficiaireType: "communaute",
         name: "Steven Buchanan",
         email: "steven.buchanan@example.com",
         phone: "+225 05 88 77 66 55",
@@ -121,7 +121,14 @@ const initialData = [
 export function useBeneficiaireActions() {
 
     const [beneficiaires, setBeneficiaires] = useState([]);
-    const [beneficiaire,setBeneficiaire] = useState()
+    const [typeBeneficiaire] = useState([
+        { id: 1, label: "Particulier", value: "particulier" },
+        { id: 2, label: "Association", value: "association" },
+        { id: 3, label: "Communaute", value: "communaute" },
+        { id: 4, label: "Organisation", value: "organisation" },
+        { id: 5, label: "ONG", value: "ong" },
+    ]);
+
  
    console.log("dfjsjgfjh",initialData);
    
@@ -149,14 +156,14 @@ export function useBeneficiaireActions() {
 
     // Fonction pour ajouter un beneficiaire
     const addBeneficiaire=(beneficiaire)=>{
-        const updatedBeneficiaires = [{ id: Date.now(), ...beneficiaire }, ...beneficiaires];
-        setBeneficiaires(updatedBeneficiaires);
-        localStorage.setItem('beneficiaires', JSON.stringify(updatedBeneficiaires));
+        const newBeneficiaire = [{ id: Date.now(), ...beneficiaire }, ...beneficiaires];        
+        setBeneficiaires(newBeneficiaire);
+        localStorage.setItem('beneficiaires', JSON.stringify(newBeneficiaire));
 
     };
 
     // Fonction pour modifier un beneficiaire
-    const editBeneficiaire=(id,updatedBeneficiaire)=>{
+    const EditBeneficiaire =(id,updatedBeneficiaire)=>{
         setBeneficiaires((prev) => {
             const updatedBeneficiaires = prev.map((beneficiaire) =>
                 beneficiaire.id === id ? { ...beneficiaire, ...updatedBeneficiaire } : beneficiaire
@@ -167,16 +174,13 @@ export function useBeneficiaireActions() {
         })
     };
 
-    //get beneficiaire
-    const getBeneficiaire = useCallback(
-        async function getBeneficiaire(id,beneficiaire) {
-           setBeneficiaire
-            
-        },
-        [beneficiaire.id]
-    );
+  
 
-
+    {
+        Array.isArray(typeBeneficiaire) ? typeBeneficiaire.map((type) => (
+            <option key={type.id} value={type.value}>{type.label}</option>
+        )) : <option disabled>Chargement...</option>
+    }
     // Fonction pour supprimer un beneficiaire
     const deleteBeneficiaire=(id)=>{
         Swal.fire({
@@ -236,7 +240,7 @@ export function useBeneficiaireActions() {
     };
 
 
-    return { beneficiaires, addBeneficiaire, editBeneficiaire, deleteBeneficiaire, showBeneficiaire };
+    return { beneficiaires, addBeneficiaire, EditBeneficiaire, deleteBeneficiaire, showBeneficiaire, typeBeneficiaire };
 }
 export default useBeneficiaireActions;
 

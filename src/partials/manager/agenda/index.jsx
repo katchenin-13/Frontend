@@ -2,19 +2,17 @@ import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
-import { fr } from "date-fns/locale";
+import DatePicker from "react-datepicker";
+import fr from "date-fns/locale/fr";  // ✅ Import correct
 import React, { useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 
-const locales = {
-    "fr-FR": fr,
-};
+const locales = { fr };  // ✅ Utilisation correcte de la locale
 
 const localizer = dateFnsLocalizer({
     format,
@@ -23,13 +21,6 @@ const localizer = dateFnsLocalizer({
     getDay,
     locales,
 });
-
-const formats = {
-    dateFormat: "d",
-    dayFormat: (date, culture, localizer) => localizer.format(date, "eeee", culture),
-    weekdayFormat: (date, culture, localizer) => localizer.format(date, "EEEE", culture),
-    monthHeaderFormat: (date, culture, localizer) => localizer.format(date, "MMMM yyyy", culture),
-};
 
 const events = [
     {
@@ -51,7 +42,7 @@ const events = [
 ];
 
 function MonCalendrier() {
-    const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
+    const [newEvent, setNewEvent] = useState({ title: "", start: null, end: null });
     const [allEvents, setAllEvents] = useState(events);
 
     function handleAddEvent() {
@@ -74,15 +65,14 @@ function MonCalendrier() {
 
         setAllEvents([...allEvents, newEvent]);
         toast.success("✅ Événement ajouté avec succès !");
-        setNewEvent({ title: "", start: "", end: "" });
+        setNewEvent({ title: "", start: null, end: null });
     }
-
 
     function handleEventClick(event) {
         Swal.fire({
             title: event.title,
-            html: `<strong>Date début :</strong> ${format(event.start, "dd/MM/yyyy HH:mm")}<br>
-                   <strong>Date fin :</strong> ${format(event.end, "dd/MM/yyyy HH:mm")}<br>
+            html: `<strong>Date début :</strong> ${format(event.start, "dd/MM/yyyy HH:mm", { locale: fr })}<br>
+                   <strong>Date fin :</strong> ${format(event.end, "dd/MM/yyyy HH:mm", { locale: fr })}<br>
                    <strong>Motif :</strong> ${event.title}`,
             icon: "info",
             confirmButtonText: "OK"
@@ -104,10 +94,9 @@ function MonCalendrier() {
                 />
                 <DatePicker
                     placeholderText="Date de début"
-                    style={{ marginRight: "10px" }}
                     selected={newEvent.start}
                     onChange={(start) => setNewEvent({ ...newEvent, start })}
-                    locale="fr"
+                    locale={fr}  // ✅ Correction ici
                     dateFormat="dd/MM/yyyy HH:mm"
                     showTimeSelect
                     timeFormat="HH:mm"
@@ -118,7 +107,7 @@ function MonCalendrier() {
                     placeholderText="Date de fin"
                     selected={newEvent.end}
                     onChange={(end) => setNewEvent({ ...newEvent, end })}
-                    locale="fr"
+                    locale={fr}  // ✅ Correction ici
                     dateFormat="dd/MM/yyyy HH:mm"
                     showTimeSelect
                     timeFormat="HH:mm"
@@ -140,7 +129,6 @@ function MonCalendrier() {
                 endAccessor="end"
                 style={{ height: 500, margin: "50px" }}
                 culture="fr"
-                formats={formats}
                 onSelectEvent={handleEventClick}
                 messages={{
                     next: "Suivant",
