@@ -43,22 +43,14 @@ const FormAddContact = () => {
         }
 
         // Ajouter le contact via le contexte
-        addContact(contactData);
+        addContact(contactData);// Ajoute le contact via le contexte
         console.log(contacts);
-        
-      localStorage.setItem("contacts", JSON.stringify(contacts));
 
+        localStorage.setItem("contacts", JSON.stringify(contacts)); // Sauvegarde des contacts dans le localStorage
         toast.success("Contact ajouté avec succès !");
 
         // Réinitialiser le formulaire après soumission
-        setContactData({
-            name: '',
-            email: '',
-            phone: '',
-            ville: '',
-            adress: '',
-            description: '',
-        });
+        setContactData({ name: '', email: '', phone: '', ville: '', adress: '', description: '' });
     };
 
     return (
@@ -71,9 +63,9 @@ const FormAddContact = () => {
                 <form onSubmit={handleSubmit} className="border-gray-500 text-white p-6 rounded-2xl w-full max-w-4xl space-y-4">
                     <div className="border-2 border-gray-500 p-4 rounded-lg">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                            <ConfigurableInput label="Nom complet" type="text" name="name" placeholder="Nom" value={contactData.name} onChange={handleChange} />
+                            <ConfigurableInput label="Nom complet" type="text" name="name" placeholder="Nom complet" value={contactData.name} onChange={handleChange} />
                             <ConfigurableInput label="Email" type="email" name="email" placeholder="exemple@gmail.com" value={contactData.email} onChange={handleChange} />
-                            <ConfigurableInput label="Fonction" type="text" name="phone" placeholder="Fonction" value={contactData.phone} onChange={handleChange} />
+                            <ConfigurableInput label="Telephone" type="text" name="phone" placeholder="Telephone" value={contactData.phone} onChange={handleChange} />
                             <ConfigurableInput label="Ville/Village" type="text" name="ville" placeholder="Ville" value={contactData.ville} onChange={handleChange} />
                             <ConfigurableInput label="Adresse" type="text" name="adress" placeholder="Adresse" value={contactData.adress} onChange={handleChange} />
                         </div>
@@ -90,7 +82,7 @@ const FormAddContact = () => {
                     </div>
                     <div className="flex justify-end mt-6">
                         <button type="submit" className="px-6 py-2 text-lg font-medium text-white bg-blue-600 rounded-lg">
-                            Ajouter Contact
+                            Soumettre
                         </button>
                     </div>
                 </form>

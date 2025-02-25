@@ -10,7 +10,6 @@ function ListeContact() {
     const [searchText, setSearchText] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 3;
-    const [selectContactCurrent, setSelectContactCurrent] = useState([]);
     console.log(contacts,);
 
     const gotToEditPage = (contact) => {

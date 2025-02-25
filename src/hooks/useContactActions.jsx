@@ -67,7 +67,7 @@ const initialData = [
             
         },
         {
-            id:1,
+            id:9,
             name: "Steven Buchanan",
            
             email: "steven.buchanan@example.com",
@@ -80,6 +80,13 @@ const initialData = [
 
 export function useContactActions() {
     const [contacts, setContacts] = useState([]);
+    const [typeBeneficiaire] = useState([
+        { id: 1, label: "Particulier", value: "particulier" },
+        { id: 2, label: "Association", value: "association" },
+        { id: 3, label: "Communauté", value: "communaute" },
+        { id: 4, label: "Organisation", value: "organisation" },
+        { id: 5, label: "ONG", value: "ong" },
+    ]);
 
     // Chargement initial des contacts
     useEffect(() => {
@@ -135,6 +142,7 @@ export function useContactActions() {
         }).then((result) => {
             if (result.isConfirmed) {
                 setContacts((prev) => prev.filter((contact) => contact.id !== id));
+                localStorage.setItem("contacts", JSON.stringify(contacts.filter((contact) => contact.id !== id)));
                 Swal.fire("Supprimé !", "Le contact a été supprimé.", "success");
             }
         });
@@ -197,6 +205,7 @@ export function useContactActions() {
         editContact,
         showContact,
         deleteContact,
+        typeBeneficiaire,
     };
 }
 

@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import ConfigurableInput from '../../../components/ConfigurableInput';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useBeneficiaireActions from '../../../hooks/useBeneficiaireActions';
 
-const EditBeneficiaire = () => {
+const FormAddBeneficiaire = () => {
 
-
-    const [formData, setFormData] = useState({
-        organisationType: "",
-        contactPhone: "",
-        contactEmail: "",
-        website: "",
-        localisation: "",
+    const { beneficiaires, addBeneficiaire } = useBeneficiaireActions();
+    const [BeneficiaireData, setBeneficiaireData] = useState({
+        beneficiaireType: "",
+        name: '',
+        email: '',
+        phone: '',
+        ville: '',
+        adress: '',
+        responsableName: "",
         responsablePhone: "",
         responsableEmail: "",
-        fonction: "",
-        adresse: "",
-        responsableLocalisation: "",
-
+        responsableFonction: "",
         description: "",
     });
 
@@ -33,26 +35,49 @@ const EditBeneficiaire = () => {
         setDynamicFields(dynamicFields.filter(field => field.id !== id));
     };
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
+
+        // Vérifier les champs vides
+        const emptyFields = Object.entries(BeneficiaireData).filter(([_, value]) => {
+            return typeof value === 'string' && !value.trim();
+        });
+
+        if (emptyFields.length > 0) {
+            emptyFields.forEach(([key]) => {
+                toast.error(`Le champ "${key}" est obligatoire.`);
+            });
+            return;
+        }
+
+        // Vérifier si un contact avec le même email existe déjà
+        const beneficiaireExists = beneficiaires.some(contact => contact.email === BeneficiaireData.email);
+        if (beneficiaireExists) {
+            toast.error("Ce beneficiaire existe déjà avec cet email.");
+            return;
+        }
+
+        // Ajouter le contact via le contexte
+        addBeneficiaire(BeneficiaireData);// Ajoute le contact via le contexte
+        console.log(contacts);
+
+        localStorage.setItem("beneficiaire", JSON.stringify(contacts)); // Sauvegarde des contacts dans le localStorage
+        toast.success("beneficiaire ajouté avec succès !");
+
+        // Réinitialiser le formulaire après soumission
+        setBeneficiaireData({ name: '', email: '', phone: '', ville: '', adress: '', description: '' });
     };
 
+
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
+        setBeneficiaireData({ ...BeneficiaireData, [e.target.name]: e.target.value });
     };
 
 
     return (
 
         <div className="col-span-full xl:col-span-12 bg-white dark:bg-gray-800 rounded-x">
-
-
+            <ToastContainer/>
             <header className="px-5 py-4 border-b border-gray-200 dark:border-gray-700/60">
                 <h2 className="font-semibold text-gray-800 dark:text-gray-100">Création d’un beneficiaire</h2>
             </header>
@@ -72,12 +97,12 @@ const EditBeneficiaire = () => {
 
                                 {/* Organisation Type Select */}
                                 <div>
-                              
+
                                     <select
                                         className="w-full h-10 px-3 text-base placeholder-gray-600 border border-blue-500 rounded-lg bg-blue-50 text-blue-700 focus:ring-blue-500 focus:border-blue-500"
-                                        id="organisationType"
-                                        value={formData.organisationType}
-                                        name="organisationType"
+                                        id="EditBeneficiaireType"
+                                        value={BeneficiaireData.beneficiaireType}
+                                        name="EditBeneficiaireType"
                                         onChange={handleChange}
                                     >
                                         <option value="text">PARTICULIER</option>
@@ -97,10 +122,11 @@ const EditBeneficiaire = () => {
                             <h2 className="font-semibold  text-black uppercase">Info Bénéficiaire</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
 
-                                <ConfigurableInput label="Nom du Responsable" type="text" name="responsableName" placeholder="responsable nom" value={formData.responsableName} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
-                                <ConfigurableInput label="Email du Responsable" type="text" name="responsableEmail" placeholder="test@gmail.com" value={formData.responsableEmail} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
-                                <ConfigurableInput label="Fonction" type="text" name="fonction" placeholder="test@gmail.com" value={formData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
-                                <ConfigurableInput label="adresse" type="text" name="Adresse" placeholder="test@gmail.com" value={formData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+
+                                <ConfigurableInput label="Nom complet" type="text" name="name" placeholder="Nom complet" value={BeneficiaireData.name} onChange={handleChange} />
+                                <ConfigurableInput label="Email" type="email" name="email" placeholder="exemple@gmail.com" value={BeneficiaireData.email} onChange={handleChange} />
+                                <ConfigurableInput label="Telephone" type="text" name="phone" placeholder="Telephone" value={BeneficiaireData.phone} onChange={handleChange} />
+                                <ConfigurableInput label="Ville/Village" type="text" name="ville" placeholder="Ville" value={BeneficiaireData.ville} onChange={handleChange} />
 
                             </div>
                         </div>
@@ -112,7 +138,7 @@ const EditBeneficiaire = () => {
                             <h2 className="font-semibold text-black uppercase">Description</h2>
                             <textarea
                                 name="description"
-                                value={formData.description}
+                                value={BeneficiaireData.description}
                                 onChange={handleChange}
                                 className="w-full h-32 p-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
                                 placeholder="Entrez la description..."
@@ -121,24 +147,23 @@ const EditBeneficiaire = () => {
 
                         {/* Autre Info */}
                         {/* Afficher Autre Info si Organisation est sélectionné */}
-                        {formData.organisationType === "select" && (
+                        {BeneficiaireData.EditBeneficiaireType === "select" && (
                             <div className="border-2 border-gray-500 p-4 rounded-lg">
                                 <h2 className="font-semibold text-black uppercase">
                                     Autre info
                                 </h2>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                                    <ConfigurableInput label="Téléphone du Responsable" type="text" name="responsablePhone" placeholder="+225 01 01 01 10 10" value={formData.responsablePhone} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
-                                    <ConfigurableInput label="Email du Responsable" type="email" name="responsablePhone" placeholder="test@gmail.com" value={formData.responsableEmail} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
-                                    <ConfigurableInput label="fonction" type="text" name="fonction" placeholder="Ex: Directeur" value={formData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
-
-
+                                    <ConfigurableInput label="Nom complet" type="text" name="responsableName" placeholder="Nom complet" value={BeneficiaireData.responsableName} onChange={handleChange} />
+                                    <ConfigurableInput label="Téléphone du Responsable" type="text" name="responsablePhone" placeholder="+225 01 01 01 10 10" value={BeneficiaireData.responsablePhone} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                    <ConfigurableInput label="Email du Responsable" type="email" name="responsablePhone" placeholder="test@gmail.com" value={BeneficiaireData.responsableEmail} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                    <ConfigurableInput label="fonction" type="text" name="responsqblefonction" placeholder="Ex: Directeur" value={BeneficiaireData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
                                 </div>
                                 {dynamicFields.map((field, index) => (
                                     <div key={field.id} className="flex items-center gap-2 mt-2">
                                         <ConfigurableInput
-                                            label="fonction"
+                                            label="Libélle"
                                             type="text"
-                                            name="fonction"
+                                            name="libelle"
                                             placeholder="Ex: Directeur"
                                             value={field.key}
                                             onChange={(e) => {
@@ -149,9 +174,9 @@ const EditBeneficiaire = () => {
                                             className="w-1/2 h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
                                         />
                                         <ConfigurableInput
-                                            label="fonction"
+                                            label="Valeur"
                                             type="text"
-                                            name="fonction"
+                                            name="Valeur"
                                             placeholder="Ex: Directeur"
                                             value={field.value}
                                             onChange={(e) => {
@@ -191,24 +216,24 @@ const EditBeneficiaire = () => {
 
                             </div>
                         )}
-                        {formData.organisationType === "text" && (
+                        {BeneficiaireData.beneficiaireType === "text" && (
                             <div className="border-2 border-gray-500 p-4 rounded-lg">
                                 <h2 className="font-semibold text-black uppercase">
                                     Autre info
                                 </h2>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
 
-                                    <ConfigurableInput label="Nom du Responsable" type="text" name="responsableName" placeholder="responsable nom" value={formData.responsableName} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
-                                    <ConfigurableInput label="Email du Responsable" type="text" name="responsableEmail" placeholder="test@gmail.com" value={formData.responsableEmail} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
-                                    <ConfigurableInput label="Fonction" type="text" name="fonction" placeholder="Ex: Directeur" value={formData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
-                                    <ConfigurableInput label="adresse" type="text" name="Adresse" placeholder="BP 123" value={formData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                    <ConfigurableInput label="Nom du Responsable" type="text" name="responsableName" placeholder="responsable nom" value={BeneficiaireData.responsableName} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                    <ConfigurableInput label="Email du Responsable" type="text" name="responsableEmail" placeholder="test@gmail.com" value={BeneficiaireData.responsableEmail} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                    <ConfigurableInput label="Fonction" type="text" name="responsableFonction" placeholder="Ex: Directeur" value={BeneficiaireData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
+                                    <ConfigurableInput label="Adresse" type="text" name="adress" placeholder="BP 123" value={BeneficiaireData.responsableFonction} onChange={handleChange} className="w-full h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" />
                                 </div>
                                 {dynamicFields.map((field, index) => (
                                     <div key={field.id} className="flex items-center gap-2 mt-2">
                                         <ConfigurableInput
-                                            label="fonction"
+                                            label="Libelle"
                                             type="text"
-                                            name="fonction"
+                                            name="libelle"
                                             placeholder="Ex: Directeur"
                                             value={field.key}
                                             onChange={(e) => {
@@ -219,9 +244,9 @@ const EditBeneficiaire = () => {
                                             className="w-1/2 h-10 px-3 text-black placeholder-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
                                         />
                                         <ConfigurableInput
-                                            label="fonction"
+                                            label="Valeur"
                                             type="text"
-                                            name="fonction"
+                                            name="valeur"
                                             placeholder="Ex: Directeur"
                                             value={field.value}
                                             onChange={(e) => {
@@ -274,14 +299,8 @@ const EditBeneficiaire = () => {
                     </form>
                 </div>
             </div>
-
-
         </div>
-
-
-
-
     );
 };
 
-export default EditBeneficiaire;
+export default FormAddBeneficiaire;

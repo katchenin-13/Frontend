@@ -1,97 +1,52 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
+import { useBeneficiaire } from "../../../contexts/BeneficiaireContext";
+import {useBeneficiaireActions} from "../../../hooks/useBeneficiaireActions";
 
 
-const initialData = [
-    {
-        name: "Communaute Internationale des Femmes",
-        email: "contact@cif.org",
-        phone: "+225 07 12 34 56 78",
-        adress: "Top-ranked search platform",
-        avatars: []
-    },
-    {
-        name: "Communauté Musulmane – SOBA",
-        email: "info@musulmane-soba.ci",
-        phone: "+225 05 98 76 54 32",
-        adress: "Leading in OS market",
-        avatars: []
-    },
-    {
-        name: "Communauté Chrétienne",
-        email: "support@communaute-chretienne.com",
-        phone: "+225 01 22 33 44 55",
-        adress: "Innovative tech products",
-        avatars: []
-    },
-    {
-        name: "Communauté Juive",
-        email: "contact@communaute-juive.net",
-        phone: "+225 07 99 88 77 66",
-        adress: "Brings all your news into one place",
-        avatars: []
-    },
-    {
-        name: "Quotient Internationale des Femmes",
-        email: "info@quotient.co",
-        phone: "+225 05 66 55 44 33",
-        adress: "Web-based sales doc management",
-        avatars: []
-    },
-    {
-        name: "Association Internationale des Femmes",
-        email: "contact@aif.org",
-        phone: "+225 01 44 33 22 11",
-        adress: "Web-based sales doc management",
-        avatars: []
-    },
-    {
-        name: "Nancy Davolio",
-        email: "nancy.davolio@example.com",
-        phone: "+225 07 22 11 00 99",
-        adress: "Web-based sales doc management",
 
-        avatars: []
-    },
-    {
-        name: "Steven Buchanan",
-       
-        email: "steven.buchanan@example.com",
-        phone: "+225 05 88 77 66 55",
-        adress: "Web-based sales doc management",
-        avatars: []
-    }
-];
+
 
 function ListeBeneficiaire() {
-    const [data, setData] = useState(initialData);
+    const {beneficiaires,showBeneficiaire,deleteBeneficiaire }= useBeneficiaire(useBeneficiaireActions) ;
     const [searchText, setSearchText] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 3;
 
+ 
+    
 
 
 
+   const gotToEdiBeneficiairetPage = (beneficiaire) => {
+   
+        if (beneficiaire && Object.keys(beneficiaire).length > 0) {
+            localStorage.setItem("beneficiaire", JSON.stringify(beneficiaire)); // ✅ Stocke correctement l'objet sélectionné
+            console.log("benficiaire sélectionné :", beneficiaire);
+        } else {
+            console.warn("Tentative d'enregistrer un objet vide dans localStorage !");
+        }
+    };
 
     // Fonction pour fermer le modal
     // Exemple d'actions pour les boutons
    
-    const handleEditClick = (entity) => {
-        setSelectedEntity(entity); // Définir l'entité sélectionnée
-        setIsModalOpen(true); // Ouvrir le modal
-    };
+ 
     // Gestion de la recherche
     const handleSearchChange = (e) => {
         setSearchText(e.target.value);
         setCurrentPage(1); // Reset page to 1 after a search
     };
 
-    const filteredData = data.filter(
+ 
+
+    const filteredData = beneficiaires.filter(
         (item) =>
-            item.name.toLowerCase().includes(searchText.toLowerCase()) ||
-            item.phone.toLowerCase().includes(searchText.toLowerCase()) ||
-            item.adress.toLowerCase().includes(searchText.toLowerCase())
+            (item.name?.toLowerCase() || "").includes(searchText.toLowerCase()) ||
+            (item.phone?.toLowerCase() || "").includes(searchText.toLowerCase()) ||
+            (item.adress?.toLowerCase() || "").includes(searchText.toLowerCase())
     );
+
 
     // Pagination logic
     const totalPages = Math.ceil(filteredData.length / rowsPerPage);
@@ -107,11 +62,7 @@ function ListeBeneficiaire() {
         if (currentPage > 1) setCurrentPage(currentPage - 1);
     };
 
-    const handleDelete = (index) => {
-        const updatedData = [...data];
-        updatedData.splice(indexOfFirstRow + index, 1); // Adjust index for current page
-        setData(updatedData);
-    };
+ 
 
     return (
         <div className="col-span-full xl:col-span-12 bg-white dark:bg-gray-800 shadow-sm rounded-xl">
@@ -315,7 +266,7 @@ function ListeBeneficiaire() {
                                                                 <button
                                                                     className="px-2 py-2 text-blue-500 transition-colors duration-200 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-700 dark:text-blue-400"
                                                                     title="Edit"
-                                                                    onClick={() => handleEditClick(initialData)}
+                                                                    onClick={() => gotToEdiBeneficiairetPage(item)}
 
                                                                 >
                                                                     <Link to="/manager-dashboard/EditBeneficiaire" className="flex items-center w-full">
@@ -347,7 +298,7 @@ function ListeBeneficiaire() {
                                                                 <button
                                                                     className="px-2 py-2 text-red-500 transition-colors duration-200 rounded-lg hover:bg-red-100 dark:hover:bg-red-700 dark:text-red-400"
                                                                     title="Delete"
-                                                                    onClick={() => handleDelete(index)}
+                                                                    onClick={() => deleteBeneficiaire(item.id)}
                                                                 >
                                                                     <svg
                                                                         xmlns="http://www.w3.org/2000/svg"
@@ -369,6 +320,7 @@ function ListeBeneficiaire() {
                                                                 <button
                                                                     className="px-2 py-2 text-green-500 transition-colors duration-200 rounded-lg hover:bg-green-100 dark:hover:bg-green-700 dark:text-green-400"
                                                                     title="View"
+                                                                    onClick={()=>showBeneficiaire(item)}
                                                                 >
                                                                     <svg
                                                                         xmlns="http://www.w3.org/2000/svg"

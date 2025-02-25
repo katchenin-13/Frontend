@@ -39,7 +39,7 @@ const FormEditContact = ({ initialData = {} }) => {
     }, []);
 
 
-  
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -57,9 +57,9 @@ const FormEditContact = ({ initialData = {} }) => {
 
         // Vérifier si l'ID existe pour mettre à jour ou ajouter
         if (contactData.id) {
-           editContact(contactData.id, contactData);
-            
-           //parcour tous les contacts dans localStorage
+            editContact(contactData.id, contactData);
+
+            //parcour tous les contacts dans localStorage
             contacts.forEach((contact) => {
                 if (contact.id === contactData.id) {
                     // Mettre à jour le contact dans la liste
@@ -72,33 +72,21 @@ const FormEditContact = ({ initialData = {} }) => {
                 }
             });
 
-            localStorage.setItem("contact", JSON.stringify(contactData));
+            localStorage.setItem("contact", JSON.stringify(contactData));// ✅ Stocke correctement l'objet sélectionné
+
             // data initialData sera egale au data du localStorage
-
-            localStorage.setItem("contacts", JSON.stringify(contacts));
-
-            
+            localStorage.setItem("contacts", JSON.stringify(contacts));// ✅ Stocke correctement l'objet sélectionné
             console.log("Contact modifié :", contactData);
-            
+
 
             toast.success("Contact modifié avec succès !");
-            
-         
-            
         } else {
             toast.error("Erreur : Impossible de modifier un contact sans ID.");
             return;
         }
 
         // Réinitialisation du formulaire après soumission
-        setContactData({
-            name: '',
-            email: '',
-            phone: '',
-            ville: '',
-            adress: '',
-            description: '',
-        });
+        setContactData({ name: '',email: '',phone: '',ville: '',adress: '',description: '',});
     };
 
 
@@ -114,7 +102,7 @@ const FormEditContact = ({ initialData = {} }) => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                             <ConfigurableInput label="Nom complet" type="text" name="name" placeholder="Nom" value={contactData.name} onChange={handleChange} />
                             <ConfigurableInput label="Email" type="email" name="email" placeholder="exemple@gmail.com" value={contactData.email} onChange={handleChange} />
-                            <ConfigurableInput label="Fonction" type="text" name="phone" placeholder="Fonction" value={contactData.phone} onChange={handleChange} />
+                            <ConfigurableInput label="Telephone" type="text" name="phone" placeholder="Telephone" value={contactData.phone} onChange={handleChange} />
                             <ConfigurableInput label="Ville/Village" type="text" name="ville" placeholder="Ville" value={contactData.ville} onChange={handleChange} />
                             <ConfigurableInput label="Adresse" type="text" name="adress" placeholder="Adresse" value={contactData.adress} onChange={handleChange} />
                         </div>
@@ -131,7 +119,7 @@ const FormEditContact = ({ initialData = {} }) => {
                     </div>
                     <div className="flex justify-end mt-6">
                         <button type="submit" className="px-6 py-2 text-lg font-medium text-white bg-blue-600 rounded-lg">
-                            {contactData.id ? "Modifier Contact" : "Ajouter Contact"}
+                            Soumettre
                         </button>
                     </div>
                 </form>

@@ -7,6 +7,7 @@ import Datepicker from '../../../components/Datepicker';
 import Listeentite from '../../../partials/admin/typeentit/ListeTypeEntite';
 import Listeentity from '../../../partials/manager/gestionentit';
 import ListeBeneficiaire from '../../../partials/manager/gestionbeneficaire';
+import { BeneficiaireProvider } from '../../../contexts/BeneficiaireContext';
 
 function GestionBeneficiaire() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -53,7 +54,10 @@ function GestionBeneficiaire() {
                         {/* Cards */}
                         <div className="grid grid-cols-12 gap-6">
 
-                            <ListeBeneficiaire />
+                            {/* <ListeBeneficiaire /> */}
+                            <BeneficiaireProvider>
+                                <ListeBeneficiaire />
+                            </BeneficiaireProvider>
 
                         </div>
 

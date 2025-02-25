@@ -31,6 +31,7 @@ import AddContact from './pages/Manager/contact/AddContact';
 import EditContact from './pages/Manager/contact/EditContact';
 import GestionAgenda from './pages/Manager/agendas/gestionAgenda.js';
 import { ContactProvider } from './contexts/contactContext.jsx';
+import { BeneficiaireProvider } from './contexts/BeneficiaireContext.jsx';
 
 function App() {
 
@@ -61,8 +62,8 @@ function App() {
       {/* <Route path="/manager-dashboard/EditActivite" element={<AddActivite />}></Route> */}
       <Route path="/manager-dashboard/Gestionbeneficiaire" element={<GestionBeneficiaire />}></Route>
 
-      <Route path="/manager-dashboard/AddBeneficiaire" element={<AddBeneficiaire />}></Route>
-      <Route path="/manager-dashboard/EditBeneficiaire" element={<EditBeneficiaire />}></Route>
+      <Route path="/manager-dashboard/AddBeneficiaire" element={<BeneficiaireProvider><AddBeneficiaire /></BeneficiaireProvider>}></Route>
+      <Route path="/manager-dashboard/EditBeneficiaire" element={<BeneficiaireProvider><EditBeneficiaire /></BeneficiaireProvider>}></Route>
 
       <Route path="/manager-dashboard/GestionContact" element={<GestionContact/>}></Route>
       <Route path="/manager-dashboard/AddContact" element={<ContactProvider><AddContact /></ContactProvider>}></Route>
