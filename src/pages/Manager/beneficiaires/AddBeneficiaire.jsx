@@ -5,7 +5,6 @@ import Banner from '../../../partials/Banner';
 import FilterButton from '../../../components/DropdownFilter';
 import Datepicker from '../../../components/Datepicker';
 
-import FormAdd from '../../../partials/manager/gestionbeneficaire/FormAddBeneficiaire';
 import FormAddBeneficiaire from '../../../partials/manager/gestionbeneficaire/FormAddBeneficiaire';
 
 

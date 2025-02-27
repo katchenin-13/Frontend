@@ -9,7 +9,7 @@ const initialData = [
             email: "membre@cif.org",
             phone: "+225 07 12 34 56 78",
             adress: "Top-ranked search platform",
-            ville:"Korhogo",
+
             
         },
         {
@@ -18,7 +18,7 @@ const initialData = [
             email: "info@musulmane-soba.ci",
             phone: "+225 05 98 76 54 32",
             adress: "Leading in OS market",
-            ville: "Bouake",
+           
             
         },
         {
@@ -27,8 +27,7 @@ const initialData = [
             email: "support@communaute-chretienne.com",
             phone: "+225 01 22 33 44 55",
             adress: "Innovative tech products",
-            ville: "Korhogo",
-            
+           
         },
         {
             id:4,
@@ -36,7 +35,7 @@ const initialData = [
             email: "membre@communaute-juive.net",
             phone: "+225 07 99 88 77 66",
             adress: "Brings all your news into one place",
-            ville: "Korhogo",
+ 
             
         },
         {
@@ -45,7 +44,7 @@ const initialData = [
             email: "info@quotient.co",
             phone: "+225 05 66 55 44 33",
             adress: "Web-based sales doc management",
-            ville: "Korhogo",
+           
             
         },
         {
@@ -62,7 +61,7 @@ const initialData = [
             email: "nancy.davolio@example.com",
             phone: "+225 07 22 11 00 99",
             adress: "Web-based sales doc management",
-            ville: "Korhogo",
+     
     
             
         },
@@ -73,7 +72,7 @@ const initialData = [
             email: "steven.buchanan@example.com",
             phone: "+225 05 88 77 66 55",
             adress: "Web-based sales doc management",
-            ville: "Korhogo",
+           
             
         }
 ];
@@ -142,19 +141,6 @@ export function useMembreActions() {
     };
 
 
-    // const showContact = (membre) => {
-    //     Swal.fire({
-    //         title: membre.name,
-    //         html: `
-    //         <p><strong>Email:</strong> ${membre.email}</p>
-    //         <p><strong>Téléphone:</strong> ${membre.phone}</p>
-    //         <p><strong>Adresse:</strong> ${membre.adress || "Non renseigné"}</p>
-    //         <p><strong>Ville:</strong> ${membre.ville || "Non renseigné"}</p>
-    //     `,
-    //         icon: "info",
-    //         confirmButtonText: "Fermer"
-    //     });
-    // };
 
 
 
@@ -180,10 +166,7 @@ export function useMembreActions() {
                     <th style="border: 1px solid #ddd; padding: 8px; background: #f4f4f4;">Adresse</th>
                     <td style="border: 1px solid #ddd; padding: 8px;">${membre.adress || "Non renseigné"}</td>
                 </tr>
-                <tr>
-                    <th style="border: 1px solid #ddd; padding: 8px; background: #f4f4f4;">Ville</th>
-                    <td style="border: 1px solid #ddd; padding: 8px;">${membre.ville || "Non renseigné"}</td>
-                </tr>
+               
             </table>
         `,
             icon: "info",

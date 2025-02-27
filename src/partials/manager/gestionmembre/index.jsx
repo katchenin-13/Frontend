@@ -197,9 +197,7 @@ function ListeMembre() {
                                                     <th className="px-4 py-3.5 text-sm font-normal text-left text-gray-500 dark:text-gray-400">
                                                         Téléphone
                                                     </th>
-                                                    <th className="px-4 py-3.5 text-sm font-normal text-left text-gray-500 dark:text-gray-400">
-                                                        Ville/Village
-                                                    </th>
+                                                   
                                                     <th className="px-4 py-3.5 text-sm font-normal text-left text-gray-500 dark:text-gray-400">
                                                         Action
                                                     </th>
@@ -231,13 +229,7 @@ function ListeMembre() {
                                                             </div>
                                                         </td>
 
-                                                        {/* Colonne phone */}
-                                                        <td className="texte-wrap px-4 py-4 text-sm whitespace-nowrap">
-                                                            <div className="font-medium text-gray-800 dark:text-white">
-                                                                {item.ville}
-                                                            </div>
-                                                        </td>
-
+                                                      
                                                         {/* Colonne Action */}
                                                         <td className="texte-wrap px-4 py-4 text-sm whitespace-nowrap">
                                                             <div className="flex items-center space-x-2">

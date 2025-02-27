@@ -11,7 +11,6 @@ const FormAddMembre = () => {
         name: '',
         email: '',
         phone: '',
-        ville: '',
         adress: '',
         description: '',
     });
@@ -50,7 +49,7 @@ const FormAddMembre = () => {
         toast.success("Membre ajouté avec succès !");
 
         // Réinitialiser le formulaire après soumission
-        setMembreData({ name: '', email: '', phone: '', ville: '', adress: '', description: '' });
+        setMembreData({ name: '', email: '', phone: '',  adress: '', description: '' });
     };
 
     return (
@@ -66,7 +65,6 @@ const FormAddMembre = () => {
                             <ConfigurableInput label="Nom complet" type="text" name="name" placeholder="Nom complet" value={membreData.name} onChange={handleChange} />
                             <ConfigurableInput label="Email" type="email" name="email" placeholder="exemple@gmail.com" value={membreData.email} onChange={handleChange} />
                             <ConfigurableInput label="Telephone" type="text" name="phone" placeholder="Telephone" value={membreData.phone} onChange={handleChange} />
-                            <ConfigurableInput label="Ville/Village" type="text" name="ville" placeholder="Ville" value={membreData.ville} onChange={handleChange} />
                             <ConfigurableInput label="Adresse" type="text" name="adress" placeholder="Adresse" value={membreData.adress} onChange={handleChange} />
                         </div>
                     </div>

@@ -66,7 +66,6 @@ const FormEditMembre = ({ initialData = {} }) => {
                     membre.name = membreData.name;
                     membre.email = membreData.email;
                     membre.phone = membreData.phone;
-                    membre.ville = membreData.ville;
                     membre.adress = membreData.adress;
                     membre.description = membreData.description;
                 }
@@ -103,7 +102,6 @@ const FormEditMembre = ({ initialData = {} }) => {
                             <ConfigurableInput label="Nom complet" type="text" name="name" placeholder="Nom" value={membreData.name} onChange={handleChange} />
                             <ConfigurableInput label="Email" type="email" name="email" placeholder="exemple@gmail.com" value={membreData.email} onChange={handleChange} />
                             <ConfigurableInput label="Telephone" type="text" name="phone" placeholder="Telephone" value={membreData.phone} onChange={handleChange} />
-                            <ConfigurableInput label="Ville/Village" type="text" name="ville" placeholder="Ville" value={membreData.ville} onChange={handleChange} />
                             <ConfigurableInput label="Adresse" type="text" name="adress" placeholder="Adresse" value={membreData.adress} onChange={handleChange} />
                         </div>
                     </div>

@@ -17,10 +17,7 @@ import Typebeneficiaire from './pages/admin/Typebeneficiaire';
 import GestionEntite from './pages/admin/GestionEntite';
 import GestionBeneficiaire from './pages/Manager/beneficiaires/GestionBeneficiaire';
 
-import SignUpContainer from './containers/SignUpContainer';
-import SignInContainer from "./containers/SignInContainer";
-import NewPasswordContainer from './containers/NewPasswordContainer';
-import ResetPasswordContainer from './containers/ResetPasswordContainer';
+
 import Dashboard1 from './pages/Manager/Dashboard1';
 import GestionActivite from './pages/Manager/activites/GestionActivite';
 import AddActivite from './pages/Manager/activites/AddActivite';
@@ -36,6 +33,11 @@ import GestionMembre from './pages/Manager/membres/GestionMembre.jsx';
 import EditMembre from './pages/Manager/membres/EditMembre.jsx';
 import { MembreProvider } from './contexts/MembreContext.jsx';
 import AddMembre from './pages/Manager/membres/AddMembre.jsx';
+import { AuthProvider } from './contexts/AuthContext.jsx';
+import SignUpForm from './pages/admin/login/SignUpForm.jsx';
+import SignInForm from './pages/admin/login/SignInForm.jsx';
+import NewPasswordForm from './pages/admin/login/NewPasswordForm.jsx';
+import ResetPasswordForm from './pages/admin/login/ResetPasswordForm.jsx';
 
 function App() {
 
@@ -48,12 +50,13 @@ function App() {
   }, [location.pathname]); // triggered on route change
 
   return (
-
+  <AuthProvider>
     <Routes>
-      <Route exact path="/" element={<SignInContainer />} />
-      <Route path="/signup" element={<SignUpContainer />} />
-      <Route path="/reset-password" element={<ResetPasswordContainer />} />
-      <Route path="/new-password" element={<NewPasswordContainer />} />
+    
+      <Route exact path="/" element={<SignInForm />} />
+        <Route path="/signup" element={<SignUpForm />} />
+      <Route path="/reset-password" element={<ResetPasswordForm />} />
+      <Route path="/new-password" element={<NewPasswordForm />} />
       <Route path="/admin-dashboard" element={<Dashboard />} />
       <Route path="/admin-dashboard/typeentite" element={<Typeentite />}></Route>
       <Route path="/admin-dashboard/typeactivite" element={<Typeactivite />}></Route>
@@ -82,7 +85,7 @@ function App() {
 
 
     </Routes>
-
+</AuthProvider>
   );
 }
 
