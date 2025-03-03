@@ -5,12 +5,7 @@ import useAuthenticationActions from "../../../hooks/useAuthenticationActions";
 import { ToastContainer } from "react-toastify";
 
 const ResetPasswordForm = () => {
-    const {
-        resetPasswordEmail,
-        setResetPasswordEmail,
-        resetPassword,
-        toggleDarkMode
-    } = useAuth(useAuthenticationActions);
+    const {resetPasswordEmail, setResetPasswordEmail, resetPassword,toggleDarkMode} = useAuth(useAuthenticationActions);
 
     return (
         <main className="bg-white dark:bg-gray-900 dark:text-gray-300">

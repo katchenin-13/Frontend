@@ -8,11 +8,11 @@ const MembreContext = createContext();
 export const useMembre = () => useContext(MembreContext);
 
 export const MembreProvider = ({ children }) => {
-    const actionMembre = useMembreActions(); // Hook gérant les actions
+    const actionMembres = useMembreActions(); // Hook gérant les actions
     // recuperer la liste des  membres
     
     return (
-        <MembreContext.Provider value={actionMembre}>
+        <MembreContext.Provider value={actionMembres}>
             {children}
         </MembreContext.Provider>
     );

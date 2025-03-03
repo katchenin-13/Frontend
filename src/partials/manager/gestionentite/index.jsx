@@ -1,61 +1,53 @@
 import React, { useState } from "react";
-import FilterSearch from "./FilterSearch";
-import ModalButton from "./ModalButton";
-import ConfigurableModal from "./ConfigurableModal"
+import { Link } from 'react-router-dom';
+import { useEntite } from "../../../contexts/EntiteContext";
+import useEntiteActions from "../../../hooks/useEntiteActions";
 
-const initialData = [
-    { company: "Google", status: "Active", about: "Search Engine", details: "Top-ranked search platform", avatars: [] },
-    { company: "Microsoft", status: "Inactive", about: "Software", details: "Leading in OS market", avatars: [] },
-    { company: "Apple", status: "Active", about: "Hardware", details: "Innovative tech products", avatars: [] },
-    { company: "Catalog", url: "catalogapp.io", status: "Customer", about: "Content curating app", details: "Brings all your news into one place", avatars: [] },
-    { company: "Quotient", url: "quotient.co", status: "Customer", about: "Sales CRM", details: "Web-based sales doc management", avatars: [] },
-];
 
-function ListeEntity() {
-    const [data, setData] = useState(initialData);
+
+
+
+
+function ListeEntite() {
+    const {entites,showEntite,deleteEntite } = useEntite(useEntiteActions);
     const [searchText, setSearchText] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 3;
 
-    const [selectedEntity, setSelectedEntity] = useState(null); // Gérer l'élément sélectionné
-    const [isModalOpen, setIsModalOpen] = useState(false);
+ 
+    
 
 
 
-    const openModal = () => {
-        setIsModalOpen(true);
+   const gotToEdiEntitetPage = (entite) => {
+   
+        if (entite && Object.keys(entite).length > 0) {
+            localStorage.setItem("entite", JSON.stringify(entite)); // ✅ Stocke correctement l'objet sélectionné
+            console.log("benficiaire sélectionné :", entite);
+        } else {
+            console.warn("Tentative d'enregistrer un objet vide dans localStorage !");
+        }
     };
 
     // Fonction pour fermer le modal
-    const closeModal = () => {
-        setIsModalOpen(false); // Assurez-vous que l'état est correctement réinitialisé
-    };
     // Exemple d'actions pour les boutons
-    const handleAccept = () => {
-        console.log('Accepté');
-        closeModal();
-    };
-
-    const handleDecline = () => {
-        console.log('Refusé');
-        closeModal();
-    };
-    const handleEditClick = (entity) => {
-        setSelectedEntity(entity); // Définir l'entité sélectionnée
-        setIsModalOpen(true); // Ouvrir le modal
-    };
+   
+ 
     // Gestion de la recherche
     const handleSearchChange = (e) => {
         setSearchText(e.target.value);
         setCurrentPage(1); // Reset page to 1 after a search
     };
 
-    const filteredData = data.filter(
+ 
+
+    const filteredData = entites.filter(
         (item) =>
-            item.company.toLowerCase().includes(searchText.toLowerCase()) ||
-            item.about.toLowerCase().includes(searchText.toLowerCase()) ||
-            item.details.toLowerCase().includes(searchText.toLowerCase())
+            (item.name?.toLowerCase() || "").includes(searchText.toLowerCase()) ||
+            (item.phone?.toLowerCase() || "").includes(searchText.toLowerCase()) ||
+            (item.adress?.toLowerCase() || "").includes(searchText.toLowerCase())
     );
+
 
     // Pagination logic
     const totalPages = Math.ceil(filteredData.length / rowsPerPage);
@@ -71,11 +63,7 @@ function ListeEntity() {
         if (currentPage > 1) setCurrentPage(currentPage - 1);
     };
 
-    const handleDelete = (index) => {
-        const updatedData = [...data];
-        updatedData.splice(indexOfFirstRow + index, 1); // Adjust index for current page
-        setData(updatedData);
-    };
+ 
 
     return (
         <div className="col-span-full xl:col-span-12 bg-white dark:bg-gray-800 shadow-sm rounded-xl">
@@ -96,7 +84,7 @@ function ListeEntity() {
                                 <div className="flex items-center gap-x-3">
                                     <h2 className="text-lg font-medium text-gray-800 dark:text-white">Nombre</h2>
                                     <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
-                                        240 Activites
+                                        240 entités
                                     </span>
                                 </div>
 
@@ -128,42 +116,30 @@ function ListeEntity() {
                                     <span>Import</span>
                                 </button>
                                 
-                                <button className="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
-                                    onClick={openModal}
+                                <button
+                                    className="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
                                 >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth="1.5"
-                                        stroke="currentColor"
-                                        className="w-5 h-5"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                        />
-                                    </svg>
-                                    <span>Nouveau</span>
-                            </button>
+                                    <Link to="/admin-dashboard/AddEntite" className="flex items-center w-full">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth="1.5"
+                                            stroke="currentColor"
+                                            className="w-5 h-5"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                            />
+                                        </svg>
+                                        <span>Nouveau</span>
+                                    </Link>
+                                </button>
                                
 
-                                {isModalOpen && (
-                                    <ConfigurableModal
-                                        title="Création d'une entité"
-                                        isOpenInitially={isModalOpen}
-                                        acceptButtonText="Confirmer"
-                                        declineButtonText="Annuler"
-                                        onAccept={handleAccept}
-                                        onDecline={handleDecline}
-                                        modalWidth="max-w-4xl"
-                                        modalHeight="max-h-full"
-                                        modalStyles={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
-                                        entity={{ name: 'Exemple Entité' }}
-                                        onClose={closeModal} // Ferme le modal lorsque l'utilisateur clique en dehors
-                                    />
-                                )}
+                               
                                 
                               
                             </div>
@@ -226,21 +202,25 @@ function ListeEntity() {
                             {/* end search */}
                         </div>
                         {/* Table Section */}
+
                         <div className="flex flex-col mt-6">
                             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                                <div className=" min-w-full py-2 align-middle md:px-6 lg:px-8">
                                     <div className="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
                                         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                             <thead className="bg-gray-50 dark:bg-gray-800">
                                                 <tr>
                                                     <th className="py-3.5 px-4 text-sm font-normal text-left text-gray-500 dark:text-gray-400">
-                                                        Company
+                                                        Nom
                                                     </th>
                                                     <th className="px-12 py-3.5 text-sm font-normal text-left text-gray-500 dark:text-gray-400">
-                                                        Status
+                                                        Email
                                                     </th>
                                                     <th className="px-4 py-3.5 text-sm font-normal text-left text-gray-500 dark:text-gray-400">
-                                                        About
+                                                        Téléphone
+                                                    </th>
+                                                    <th className="px-4 py-3.5 text-sm font-normal text-left text-gray-500 dark:text-gray-400">
+                                                        Adresse
                                                     </th>
                                                     <th className="px-4 py-3.5 text-sm font-normal text-left text-gray-500 dark:text-gray-400">
                                                         Action
@@ -250,65 +230,76 @@ function ListeEntity() {
                                             <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
                                                 {currentRows.map((item, index) => (
                                                     <tr key={index}>
-                                                        {/* Colonne Company */}
-                                                        <td className="px-4 py-4 text-sm font-medium whitespace-nowrap">
-                                                            <div>
-                                                                <h2 className="font-medium text-gray-800 dark:text-white">{item.company}</h2>
-                                                                <p className="text-sm font-normal text-gray-600 dark:text-gray-400">{item.url}</p>
+                                                        {/* Colonne name */}
+                                                        <td className="texte-wrap px-4 py-4 text-sm font-medium whitespace-nowrap">
+
+                                                            <div className="font-medium text-gray-800 dark:text-white">
+                                                                {item.name}
                                                             </div>
                                                         </td>
 
-                                                        {/* Colonne Status */}
-                                                        <td className="px-12 py-4 text-sm font-medium whitespace-nowrap">
-                                                            <div className="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100/60 dark:bg-gray-800">
-                                                                {item.status}
+                                                        {/* Colonne email */}
+                                                        <td className="texte-wrap px-12 py-4 text-sm font-medium whitespace-nowrap">
+                                                            <div className="font-medium text-gray-800 dark:text-white">
+                                                                {item.email}
                                                             </div>
                                                         </td>
 
-                                                        {/* Colonne About */}
-                                                        <td className="px-4 py-4 text-sm whitespace-nowrap">
-                                                            <div>
-                                                                <h4 className="text-gray-700 dark:text-gray-200">{item.about}</h4>
-                                                                <p className="text-gray-500 dark:text-gray-400">{item.details}</p>
+                                                        {/* Colonne phone */}
+                                                        <td className="texte-wrap px-4 py-4 text-sm whitespace-nowrap">
+
+                                                            <div className="font-medium text-gray-800 dark:text-white">
+                                                                {item.phone}
+                                                            </div>
+                                                        </td>
+
+                                                        {/* Colonne phone */}
+                                                        <td className="texte-wrap px-4 py-4 text-sm whitespace-nowrap">
+                                                            <div className="font-medium text-gray-800 dark:text-white">
+                                                                {item.adress}
                                                             </div>
                                                         </td>
 
                                                         {/* Colonne Action */}
-                                                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                                                        <td className="texte-wrap px-4 py-4 text-sm whitespace-nowrap">
                                                             <div className="flex items-center space-x-2">
                                                                 {/* Bouton Edit */}
                                                                 <button
                                                                     className="px-2 py-2 text-blue-500 transition-colors duration-200 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-700 dark:text-blue-400"
                                                                     title="Edit"
-                                                                    onClick={() => handleEditClick(initialData)}
+                                                                    onClick={() => gotToEdiEntitetPage(item)}
 
                                                                 >
-                                                                    <svg
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        fill="none"
-                                                                        viewBox="0 0 24 24"
-                                                                        strokeWidth="1.5"
-                                                                        stroke="currentColor"
-                                                                        className="w-5 h-5"
-                                                                    >
-                                                                        <path
-                                                                            strokeLinecap="round"
-                                                                            strokeLinejoin="round"
-                                                                            d="M16.862 3.487a2.25 2.25 0 013.182 3.182l-9.36 9.36a4.5 4.5 0 01-1.914 1.127l-4.036 1.009a.375.375 0 01-.462-.462l1.009-4.035a4.5 4.5 0 011.127-1.914l9.36-9.36z"
-                                                                        />
-                                                                        <path
-                                                                            strokeLinecap="round"
-                                                                            strokeLinejoin="round"
-                                                                            d="M19.5 12.75V19.5a2.25 2.25 0 01-2.25 2.25h-12A2.25 2.25 0 013 19.5v-12A2.25 2.25 0 015.25 5.25h6.75"
-                                                                        />
-                                                                    </svg>
+                                                                    <Link to="/admin-dashboard/EditEntite" className="flex items-center w-full">
+                                                                        <svg
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            fill="none"
+                                                                            viewBox="0 0 24 24"
+                                                                            strokeWidth="1.5"
+                                                                            stroke="currentColor"
+                                                                            className="w-5 h-5"
+                                                                        >
+                                                                            <path
+                                                                                strokeLinecap="round"
+                                                                                strokeLinejoin="round"
+                                                                                d="M16.862 3.487a2.25 2.25 0 013.182 3.182l-9.36 9.36a4.5 4.5 0 01-1.914 1.127l-4.036 1.009a.375.375 0 01-.462-.462l1.009-4.035a4.5 4.5 0 011.127-1.914l9.36-9.36z"
+                                                                            />
+                                                                            <path
+                                                                                strokeLinecap="round"
+                                                                                strokeLinejoin="round"
+                                                                                d="M19.5 12.75V19.5a2.25 2.25 0 01-2.25 2.25h-12A2.25 2.25 0 013 19.5v-12A2.25 2.25 0 015.25 5.25h6.75"
+                                                                            />
+                                                                        </svg>
+                                                                       
+                                                                    </Link>
+                                                                   
                                                                 </button>
 
                                                                 {/* Bouton Delete */}
                                                                 <button
                                                                     className="px-2 py-2 text-red-500 transition-colors duration-200 rounded-lg hover:bg-red-100 dark:hover:bg-red-700 dark:text-red-400"
                                                                     title="Delete"
-                                                                    onClick={() => handleDelete(index)}
+                                                                    onClick={() => deleteEntite(item.id)}
                                                                 >
                                                                     <svg
                                                                         xmlns="http://www.w3.org/2000/svg"
@@ -330,6 +321,7 @@ function ListeEntity() {
                                                                 <button
                                                                     className="px-2 py-2 text-green-500 transition-colors duration-200 rounded-lg hover:bg-green-100 dark:hover:bg-green-700 dark:text-green-400"
                                                                     title="View"
+                                                                    onClick={()=>showEntite(item)}
                                                                 >
                                                                     <svg
                                                                         xmlns="http://www.w3.org/2000/svg"
@@ -357,7 +349,7 @@ function ListeEntity() {
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div className="mt-6 sm:flex sm:items-center sm:justify-between">
                             <div className="text-sm text-gray-500 dark:text-gray-400">
                                 Page <span className="font-medium text-gray-700 dark:text-gray-100">{currentPage} sur {totalPages}</span>
@@ -409,8 +401,12 @@ function ListeEntity() {
                                     </svg>
                                 </button>
                             </div>
-                           
+
                         </div>
+
+
+                        
+                       
                 </section>
                 </div>
             </div>
@@ -421,4 +417,4 @@ function ListeEntity() {
     );
 }
 
-export default ListeEntity;
+export default ListeEntite;

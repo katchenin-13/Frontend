@@ -4,11 +4,14 @@ import Header from '../../../partials/Header';
 import Banner from '../../../partials/Banner';
 import FilterButton from '../../../components/DropdownFilter';
 import Datepicker from '../../../components/Datepicker';
-import ListeBeneficiaire from '../../../partials/manager/gestionbeneficaire';
-import { BeneficiaireProvider } from '../../../contexts/BeneficiaireContext';
 
-function GestionBeneficiaire() {
+import FormAddEntite from '../../../partials/manager/gestionentite/FormAddEntite';
+
+
+
+function AddEntite() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+
     return (
         <div className="flex h-screen overflow-hidden">
 
@@ -52,10 +55,7 @@ function GestionBeneficiaire() {
                         {/* Cards */}
                         <div className="grid grid-cols-12 gap-6">
 
-                            {/* <ListeBeneficiaire /> */}
-                            <BeneficiaireProvider>
-                                <ListeBeneficiaire />
-                            </BeneficiaireProvider>
+                            <FormAddEntite />
 
                         </div>
 
@@ -69,5 +69,6 @@ function GestionBeneficiaire() {
     );
 
 }
+export default AddEntite;
 
-export default GestionBeneficiaire;
+

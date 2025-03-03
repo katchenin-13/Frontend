@@ -4,7 +4,7 @@ import Header from '../../../partials/Header';
 import Banner from '../../../partials/Banner';
 import FilterButton from '../../../components/DropdownFilter';
 import Datepicker from '../../../components/Datepicker';
-import ListeMembre from '../../../partials/manager/gestionmembre';
+import ListeMembre from '../../../partials/manager/gestionentite';
 import { MembreProvider } from '../../../contexts/MembreContext';
 function GestionMembre() {
     const [sidebarOpen, setSidebarOpen] = useState(false);

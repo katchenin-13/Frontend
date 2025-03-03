@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import Sidebar from '../../../partials/Sidebar1';
+import Sidebar from '../../../partials/Sidebar';
 import Header from '../../../partials/Header';
 import Banner from '../../../partials/Banner';
 import FilterButton from '../../../components/DropdownFilter';
 import Datepicker from '../../../components/Datepicker';
-import ListeBeneficiaire from '../../../partials/manager/gestionbeneficaire';
-import { BeneficiaireProvider } from '../../../contexts/BeneficiaireContext';
+import ListeEntite from '../../../partials/manager/gestionentite';
+import { EntiteProvider } from '../../../contexts/EntiteContext';
 
-function GestionBeneficiaire() {
+function GestionEntite() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     return (
         <div className="flex h-screen overflow-hidden">
@@ -52,10 +52,10 @@ function GestionBeneficiaire() {
                         {/* Cards */}
                         <div className="grid grid-cols-12 gap-6">
 
-                            {/* <ListeBeneficiaire /> */}
-                            <BeneficiaireProvider>
-                                <ListeBeneficiaire />
-                            </BeneficiaireProvider>
+                            {/* <ListeEntite /> */}
+                            <EntiteProvider>
+                                <ListeEntite/>
+                            </EntiteProvider>
 
                         </div>
 
@@ -70,4 +70,4 @@ function GestionBeneficiaire() {
 
 }
 
-export default GestionBeneficiaire;
+export default GestionEntite;

@@ -36,7 +36,7 @@ console.log(signInData);
 
                         {/* Titre du formulaire */}
                         <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 text-center">
-                            Créez votre compte
+                            CONNEXION
                         </h1>
 
                         <form onSubmit={signIn} className="mt-8 space-y-6">

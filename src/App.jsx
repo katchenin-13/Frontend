@@ -14,7 +14,7 @@ import Dashboard from './pages/admin/Dashboard';
 import Typeentite from './pages/admin/typeentite';
 import Typeactivite from './pages/admin/Typeactivite';
 import Typebeneficiaire from './pages/admin/Typebeneficiaire';
-import GestionEntite from './pages/admin/GestionEntite';
+import GestionEntite from './pages/Manager/entites/GestionEntite';
 import GestionBeneficiaire from './pages/Manager/beneficiaires/GestionBeneficiaire';
 
 
@@ -38,6 +38,9 @@ import SignUpForm from './pages/admin/login/SignUpForm.jsx';
 import SignInForm from './pages/admin/login/SignInForm.jsx';
 import NewPasswordForm from './pages/admin/login/NewPasswordForm.jsx';
 import ResetPasswordForm from './pages/admin/login/ResetPasswordForm.jsx';
+import AddEntite from './pages/Manager/entites/AddEntite.jsx';
+import EditEntite from './pages/Manager/entites/EditEntite.jsx';
+import { EntiteProvider } from './contexts/EntiteContext.jsx';
 
 function App() {
 
@@ -52,9 +55,8 @@ function App() {
   return (
   <AuthProvider>
     <Routes>
-    
       <Route exact path="/" element={<SignInForm />} />
-        <Route path="/signup" element={<SignUpForm />} />
+      <Route path="/signup" element={<SignUpForm />} />
       <Route path="/reset-password" element={<ResetPasswordForm />} />
       <Route path="/new-password" element={<NewPasswordForm />} />
       <Route path="/admin-dashboard" element={<Dashboard />} />
@@ -62,6 +64,8 @@ function App() {
       <Route path="/admin-dashboard/typeactivite" element={<Typeactivite />}></Route>
       <Route path="/admin-dashboard/typebeneficiaire" element={<Typebeneficiaire />}></Route>
       <Route path="/admin-dashboard/GestionEntite" element={<GestionEntite />}></Route>
+      <Route path="/admin-dashboard/AddEntite" element={<EntiteProvider> <AddEntite /> </EntiteProvider>}></Route>
+       <Route path="/admin-dashboard/EditEntite" element={<EntiteProvider> <EditEntite /> </EntiteProvider>}></Route>
 
       <Route path="/manager-dashboard" element={<Dashboard1 />} />
       <Route path="/manager-dashboard/GestionActivite" element={<GestionActivite />}></Route>
