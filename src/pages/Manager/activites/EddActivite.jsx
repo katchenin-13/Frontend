@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import Sidebar from '../../partials/Sidebar';
-import Header from '../../partials/Header';
-import Banner from '../../partials/Banner';
-import FilterButton from '../../components/DropdownFilter';
-import Datepicker from '../../components/Datepicker';
-import ListeTypeActivite from '../../partials/admin/typeactivite/ListeTypeActivite';
+import Sidebar from '../../../partials/Sidebar1';
+import Header from '../../../partials/Header';
+import Banner from '../../../partials/Banner';
+import FilterButton from '../../../components/DropdownFilter';
+import Datepicker from '../../../components/Datepicker';
+import FormEditActivite from '../../../partials/manager/gestionactivites/FormEditActivite';
 
 
 
-function Typeactivite() {
+function EddActivite() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
@@ -54,7 +54,7 @@ function Typeactivite() {
                         {/* Cards */}
                         <div className="grid grid-cols-12 gap-6">
 
-                            <ListeTypeActivite />
+                            <FormEditActivite />
 
                         </div>
 
@@ -68,6 +68,6 @@ function Typeactivite() {
     );
 
 }
-export default Typeactivite;
+export default EddActivite;
 
 

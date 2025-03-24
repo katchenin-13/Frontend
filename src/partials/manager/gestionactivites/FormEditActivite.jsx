@@ -6,7 +6,7 @@ import ConfigurableSelectField from '../../../components/ConfigurableSelectField
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function FormAdd() {
+function FormEditActivite() {
     const formArray = ["brouillon", "validation", "programmation", "assignation"];
     const [formNo, setFormNo] = useState(formArray[0]);
     const [status, setStatus] = useState("brouillon");
@@ -353,4 +353,4 @@ function FormAdd() {
     );
 }
 
-export default FormAdd;
+export default FormEditActivite;

@@ -4,7 +4,8 @@ import Header from '../../../partials/Header';
 import Banner from '../../../partials/Banner';
 import FilterButton from '../../../components/DropdownFilter';
 import Datepicker from '../../../components/Datepicker';
-import ListeActivites from '../../../partials/manager/gestionact';
+import ListeActivites from '../../../partials/manager/gestionactivites';
+import { ActiviteProvider } from '../../../contexts/ActiviteContext';
 
 
 function GestionActivite() {
@@ -52,8 +53,10 @@ function GestionActivite() {
 
                         {/* Cards */}
                         <div className="grid grid-cols-12 gap-6">
-
-                            <ListeActivites />
+                            <ActiviteProvider>
+                                <ListeActivites />
+                            </ActiviteProvider>
+                           
 
                         </div>
 

@@ -6,9 +6,10 @@ import ConfigurableSelectField from '../../../components/ConfigurableSelectField
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function FormAdd() {
+
+function FormAddActivite() {
+   
     const formArray = ["brouillon", "validation", "programmation", "assignation"];
-    const stepperItemClass = "w-[120px] text-center px-2 py-1 text-white rounded-full text-sm h-[35px] flex justify-center items-center";
     const [formNo, setFormNo] = useState(formArray[0]);
     const [status, setStatus] = useState("brouillon");
     const [state, setState] = useState({
@@ -55,9 +56,9 @@ function FormAdd() {
         setDynamicFields((prevFields) => [...prevFields, newField]);
     };
 
-    function removeDynamicField(id) {
+    const removeDynamicField = (id) => {
         setDynamicFields((prevFields) => prevFields.filter(field => field.id !== id));
-    }
+    };
 
 
     const inputHandle = (e) => {
@@ -67,28 +68,29 @@ function FormAdd() {
                 e.target.value
         });
     };
+    const currentStepIndex = formArray.indexOf(formNo);
 
-    const validationRules = {
-        brouillon: () => state.motif && state.date && state.typeactivitesdes !== "---Selectionner un type d'activité---",
-        validation: () => state.telephone && state.email,
-        programmation: () => state.responsableName && state.responsableEmail && state.responsableFonction
-    };
-    const next = () => {
-        const currentStepIndex = formArray.indexOf(status);
-
-        if (currentStepIndex === -1 || currentStepIndex >= formArray.length - 1) {
-            return toast.error("Impossible de continuer.");
-        }
-
-        const currentStep = formArray[currentStepIndex];
-
-        if (validationRules[currentStep]?.()) {
-            setFormNo(formNo + 1);
-            setStatus(formArray[currentStepIndex + 1]);
-        } else {
-            toast.error("Veuillez remplir tous les champs requis");
-        }
-    };
+     const validationRules = {
+            brouillon: () => state.motif && state.date && state.typeactivitesdes !== "---Selectionner un type d'activité---",
+            validation: () => state.telephone && state.email,
+            programmation: () => state.responsableName && state.responsableEmail && state.responsableFonction
+        };
+        const next = () => {
+            const currentStepIndex = formArray.indexOf(status);
+    
+            if (currentStepIndex === -1 || currentStepIndex >= formArray.length - 1) {
+                return toast.error("Impossible de continuer.");
+            }
+    
+            const currentStep = formArray[currentStepIndex];
+    
+            if (validationRules[currentStep]?.()) {
+                setFormNo(formNo + 1);
+                setStatus(formArray[currentStepIndex + 1]);
+            } else {
+                toast.error("Veuillez remplir tous les champs requis");
+            }
+        };
 
     const pre = () => {
         setFormNo(formNo - 1);
@@ -115,14 +117,16 @@ function FormAdd() {
                         <div className="card w-full rounded-md shadow-md bg-white p-5">
                             <div className="flex justify-center items-center">
                                 {formArray.map((label, i) => (
-                                    <React.Fragment key={i}>
-                                        <div className={`${stepperItemClass} ${formNo - 1 >= i ? "bg-blue-500" : "bg-slate-400"}`}>
+                                    <>
+                                        <div className={`w-[120px] my-3 text-white rounded-full ${currentStepIndex >= i ? "bg-blue-500" : "bg-slate-400"
+                                            } h-[35px] flex justify-center items-center`}>
                                             {label}
                                         </div>
                                         {i !== formArray.length - 1 && (
-                                            <div className={`w-[85px] h-[2px] ${formNo > i ? "bg-blue-500" : "bg-slate-400"}`}></div>
+                                            <div className={`w-[85px] h-[2px] ${currentStepIndex > i ? "bg-blue-500" : "bg-slate-400"}`}>
+                                            </div>
                                         )}
-                                    </React.Fragment>
+                                    </>
                                 ))}
                             </div>
 
@@ -334,6 +338,11 @@ function FormAdd() {
 
                             {formNo === "assignation" && (
                                 <div>
+                                    <input name="responsableName" placeholder="Date debut prévus" value={state.responsableName} onChange={inputHandle} className="p-2 border w-full mb-2" />
+                                    <input name="responsableEmail" placeholder="Date fin prévus" value={state.responsableEmail} onChange={inputHandle} className="p-2 border w-full mb-2" />
+                                    <div className="flex gap-2">
+                                        <button onClick={pre} className="px-3 py-2 bg-gray-500 text-white w-full">Précédent</button>
+                                    </div>
                                     <p>Validation et assignation terminées.</p>
                                     <button onClick={finalSubmit} className="px-3 py-2 bg-green-500 text-white w-full">Soumettre</button>
                                 </div>
@@ -346,4 +355,4 @@ function FormAdd() {
     );
 }
 
-export default FormAdd;
+export default FormAddActivite;

@@ -1,88 +1,33 @@
 import React, { useState } from "react";
 import {Link} from 'react-router-dom';
+import { useActivite } from "../../../contexts/ActiviteContext";
+import useActiviteActions from "../../../hooks/useActiviteActions";
 
-const initialData = [
-    {
-        id: 1,
-        date_rencontre: "10/02/2025",
-        date_fin: "20/02/2025",
-        beneficiaire: {
-            nom: "Jean Dupont",
-            phone: "+2250102030405",
-            address: "Abidjan, Côte d'Ivoire"
-        },
-        motif: "Demande de financement",
-        status: "En attente",
-        brouillon: false
-    },
-    {
-        id: 2,
-        date_rencontre: "12/03/2025",
-        date_fin: "15/03/2025",
-        beneficiaire: {
-            nom: "Marie Claire",
-            phone: "+2250607080910",
-            address: "Yamoussoukro, Côte d'Ivoire"
-        },
-        motif: "Demande d'information",
-        status: "Terminée",
-        brouillon: true
-    },
-    {
-        id: 3,
-        date_rencontre: "05/04/2025",
-        date_fin: "10/04/2025",
-        beneficiaire: {nom: "Paul Tanguy",phone: "+2250708091011",address: "San Pedro, Côte d'Ivoire"},
-        motif: "Demande de formation",
-        status: "En attente",
-        brouillon: false
-    },
-    {
-        id: 4,
-        date_rencontre: "15/05/2025",
-        date_fin: "20/05/2025",
-        beneficiaire: {
-            nom: "Awa Kouadio",
-            phone: "+2250908070605",
-            address: "Daloa, Côte d'Ivoire"
-        },
-        motif: "Demande de financement",
-        status: "Validée",
-        brouillon: false
-    },
-    {
-        id: 5,
-        date_rencontre: "18/06/2025",
-        date_fin: "22/06/2025",
-        beneficiaire: {
-            nom: "Koffi Didier",
-            phone: "+2250123456789",
-            address: "Bouaké, Côte d'Ivoire"
-        },
-        motif: "Demande d'information",
-        status: "En attente",
-        brouillon: true
-    }
-];
+
 
 const ListeActivites = () => {
-    const [data,setData] = useState(initialData);
+    const { activites, showActivite, deleteActivite }= useActivite(useActiviteActions) ;
+    
+   
     const [activeItem, setActiveItem] = useState("Brouillon");
     const [searchText, setSearchText] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
 
-    const handleEditClick = (entity) => {
-        setSelectedEntity(entity); // Définir l'entité sélectionnée
-    };
 
-    const handleDeleteClick = (entity) => {
-        setSelectedEntity(entity); // Définir l'entité sélectionnée
-    };
+    const getToEditActivitesPage = (activite) => {
+        if (activite && Object.keys(activite).length >0) {
+            localStorage.setItem("activite", JSON.stringify(activite)); // ✅ Stocke correctement l'objet sélectionné
+            console.log("Activité sélectionné :", activite);
+        } else {
+            console.log("Aucune activité sélectionnée.");
+        }
+    }
 
     const handleSearchChange =(e)=>{
         setSearchText(e.target.value);
         setCurrentPage(1);
     }
+
 
     const menuItems = [
         { name: "Brouillon", icon: "M10 0a10 10 ..." },
@@ -91,11 +36,11 @@ const ListeActivites = () => {
     ];
 
 
-    const filteredData = data.filter(item =>
+    const filteredData = activites.filter(item =>
         activeItem === "Brouillon" ? item.brouillon === true :
         activeItem === "Liste des activites" ? item.brouillon === false :
         
-                true // Valeur par défaut si `activeItem` ne correspond à aucun cas
+        true // Valeur par défaut si `activeItem` ne correspond à aucun cas
     );
 
     // pagination logic
@@ -112,11 +57,8 @@ const ListeActivites = () => {
         if(currentPage > 1) setCurrentPage(currentPage - 1);
     }
 
-    const handleDelete = (entity) => {
-        const updateData = [...data];
-        updateData.splice(updateData.indexOf(entity), 1);
-        setData(updateData);
-    };
+
+
 
     return (
         <div className="col-span-full xl:col-span-12 bg-white dark:bg-gray-800 shadow-sm rounded-xl">
@@ -347,7 +289,7 @@ const ListeActivites = () => {
                                                                 <button
                                                                     className="px-2 py-2 text-blue-500 transition-colors duration-200 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-700 dark:text-blue-400"
                                                                     title="Edit"
-                                                                    onClick={() => handleEditClick(initialData)}
+                                                                    onClick={() => getToEditActivitesPage(item)}
 
                                                                 >
                                                                     <svg
@@ -375,7 +317,7 @@ const ListeActivites = () => {
                                                                 <button
                                                                     className="px-2 py-2 text-red-500 transition-colors duration-200 rounded-lg hover:bg-red-100 dark:hover:bg-red-700 dark:text-red-400"
                                                                     title="Delete"
-                                                                    onClick={() => handleDelete(index)}
+                                                                    onClick={() => deleteActivite(item)}
                                                                 >
                                                                     <svg
                                                                         xmlns="http://www.w3.org/2000/svg"
@@ -397,6 +339,7 @@ const ListeActivites = () => {
                                                                 <button
                                                                     className="px-2 py-2 text-green-500 transition-colors duration-200 rounded-lg hover:bg-green-100 dark:hover:bg-green-700 dark:text-green-400"
                                                                     title="View"
+                                                                    onClick={() => showActivite(item)}
                                                                 >
                                                                     <svg
                                                                         xmlns="http://www.w3.org/2000/svg"

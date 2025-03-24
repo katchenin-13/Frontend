@@ -120,7 +120,7 @@ const initialData = [
 
 export function useEntiteActions() {
 
-    const [entites, setEntites] = useState([]);
+    const [entites, setEntites] = useState([...initialData]);
     const [typeEntite] = useState([
         { id: 1, label: "Particulier", value: "particulier" },
         { id: 2, label: "Association", value: "association" },
@@ -197,7 +197,7 @@ export function useEntiteActions() {
             const updatedEntites = entites.filter((entite) => entite.id !== id);
             setEntites(updatedEntites);
             localStorage.setItem('entites', JSON.stringify(updatedEntites));
-            Swal.fire("Supprimé!", "Le entite a été supprimé.", "success");    
+            Swal.fire("Supprimé!", "Le entité a été supprimé.", "success");    
         }
         })
     
@@ -206,7 +206,7 @@ export function useEntiteActions() {
     //function de show
     const showEntite = (entite)=>{
         Swal.fire({
-            title:`<strong> Détails du bénéficiaire</strong>`,
+            title:`<strong> Détails du entité</strong>`,
             html:`
                 <table style="width:100%; border-collapse: collapse; text-align: left;">
                 <tr>

@@ -4,7 +4,7 @@ import Header from '../../../partials/Header';
 import Banner from '../../../partials/Banner';
 import FilterButton from '../../../components/DropdownFilter';
 import Datepicker from '../../../components/Datepicker';
-import FormAdd from '../../../partials/manager/gestionact/FormAdd';
+import FormAddActivite from '../../../partials/manager/gestionactivites/FormAddActivite';
 
 
 
@@ -54,7 +54,7 @@ function AddActivite() {
                         {/* Cards */}
                         <div className="grid grid-cols-12 gap-6">
 
-                            <FormAdd />
+                            <FormAddActivite />
 
                         </div>
 

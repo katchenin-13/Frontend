@@ -23,6 +23,7 @@ const FormEditMembre = ({ initialData = {} }) => {
     const handleChange = (e) => {
         setMembreData({ ...membreData, [e.target.name]: e.target.value });
     };
+    
     useEffect(() => {
         const savedMembre = localStorage.getItem("membre");
 

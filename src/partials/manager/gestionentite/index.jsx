@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import { useEntite } from "../../../contexts/EntiteContext";
-import useEntiteActions from "../../../hooks/useEntiteActions";
+import {useEntiteActions} from "../../../hooks/useEntiteActions";
 
 
 
@@ -10,6 +10,7 @@ import useEntiteActions from "../../../hooks/useEntiteActions";
 
 function ListeEntite() {
     const {entites,showEntite,deleteEntite } = useEntite(useEntiteActions);
+    
     const [searchText, setSearchText] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 3;
@@ -69,7 +70,7 @@ function ListeEntite() {
         <div className="col-span-full xl:col-span-12 bg-white dark:bg-gray-800 shadow-sm rounded-xl">
             {/* Header */}
             <header className="px-5 py-4 border-b border-gray-200 dark:border-gray-700/60">
-                <h2 className="font-semibold text-gray-800 dark:text-gray-100">Liste des entités</h2>
+                <h2 className="font-semibold text-gray-800 dark:text-gray-100">Liste des membres</h2>
             </header>
 
            
@@ -84,7 +85,7 @@ function ListeEntite() {
                                 <div className="flex items-center gap-x-3">
                                     <h2 className="text-lg font-medium text-gray-800 dark:text-white">Nombre</h2>
                                     <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
-                                        240 entités
+                                        240 membres
                                     </span>
                                 </div>
 

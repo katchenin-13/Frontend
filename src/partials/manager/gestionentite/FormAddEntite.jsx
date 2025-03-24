@@ -79,7 +79,7 @@ const FormAddEntite = () => {
         <div className="col-span-full xl:col-span-12 bg-white dark:bg-gray-800 rounded-x">
             <ToastContainer/>
             <header className="px-5 py-4 border-b border-gray-200 dark:border-gray-700/60">
-                <h2 className="font-semibold text-gray-800 dark:text-gray-100">Création d’un entite</h2>
+                <h2 className="font-semibold text-gray-800 dark:text-gray-100">Création d’un membres</h2>
             </header>
             {/* Modal body */}
             <div className="p-4 md:p-5 space-y-4" >

@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 
 // Données fictives initiales
 const initialData = [
-     {
+       {
             id:1,
             name: "Communaute Internationale des Femmes",
             email: "contact@cif.org",
@@ -12,6 +12,7 @@ const initialData = [
             ville:"Korhogo",
             
         },
+
         {
             id:2,
             name: "Communauté Musulmane – SOBA",
@@ -21,6 +22,7 @@ const initialData = [
             ville: "Bouake",
             
         },
+
         {
             id:3,
             name: "Communauté Chrétienne",
@@ -30,6 +32,7 @@ const initialData = [
             ville: "Korhogo",
             
         },
+
         {
             id:4,
             name: "Communauté Juive",
@@ -39,6 +42,7 @@ const initialData = [
             ville: "Korhogo",
             
         },
+
         {
             id:5,
             name: "Quotient Internationale des Femmes",
@@ -48,6 +52,7 @@ const initialData = [
             ville: "Korhogo",
             
         },
+
         {
             id:6,
             name: "Association Internationale des Femmes",
@@ -56,6 +61,7 @@ const initialData = [
             adress: "Web-based sales doc management",
             
         },
+
         {
             id:7,
             name: "Nancy Davolio",
@@ -66,10 +72,10 @@ const initialData = [
     
             
         },
+
         {
             id:9,
             name: "Steven Buchanan",
-           
             email: "steven.buchanan@example.com",
             phone: "+225 05 88 77 66 55",
             adress: "Web-based sales doc management",

@@ -4,7 +4,6 @@ import Header from '../../partials/Header';
 import Banner from '../../partials/Banner';
 import FilterButton from '../../components/DropdownFilter';
 import Datepicker from '../../components/Datepicker';
-import Listebeneficiaire from '../../partials/admin/typebeneficiaire/ListeTypeBeneficiaire';
 import ListeTypeBeneficiaire from '../../partials/admin/typebeneficiaire/ListeTypeBeneficiaire';
 function Typebeneficiaire() {
     const [sidebarOpen, setSidebarOpen] = useState(true);

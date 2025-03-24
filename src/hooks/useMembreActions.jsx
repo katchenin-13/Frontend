@@ -3,15 +3,14 @@ import Swal from "sweetalert2";
 
 // Données fictives initiales
 const initialData = [
-     {
+        {
             id:1,
             name: "Communaute Internationale des Femmes",
             email: "membre@cif.org",
             phone: "+225 07 12 34 56 78",
-            adress: "Top-ranked search platform",
-
-            
+            adress: "Top-ranked search platform",       
         },
+        
         {
             id:2,
             name: "Communauté Musulmane – SOBA",
@@ -78,7 +77,7 @@ const initialData = [
 ];
 
 export function useMembreActions() {
-    const [membres, setMembre] = useState([]);
+    const [membres, setMembre] = useState([...initialData]);
    
     // Chargement initial des membres
     useEffect(() => {
@@ -116,7 +115,7 @@ export function useMembreActions() {
             // Mise à jour du localStorage
             localStorage.setItem("membres", JSON.stringify(updatedMembres));
 
-            return updatedMembre;
+            return updatedMembres;
         });
     };
 
